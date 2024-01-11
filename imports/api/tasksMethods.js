@@ -5,8 +5,7 @@ import { TasksCollection } from "../db/TasksCollection";
 Meteor.methods({
   "tasks.insert"(text) {
     check(text, String);
-    console.log(text);
-
+    
     if (!this.userId) {
       throw new Meteor.Error("Não autorizado.");
     }

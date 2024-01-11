@@ -1,0 +1,14 @@
+.showPassword {
+  background-color: #fff;
+}
+
+.content {
+  margin: 0;
+  padding: 0;
+}
+
+.showPassword button {
+  border: none;
+  box-shadow: none;
+  margin-right: 0px;
+}
