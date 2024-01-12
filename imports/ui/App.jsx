@@ -47,6 +47,7 @@ export function App() {
 //     if (!Meteor.user()) {
 //       return noDataAvailable;
 //     }
+
 //     const handler = Meteor.subscribe("tasks");
 
 //     if (!handler.ready()) {

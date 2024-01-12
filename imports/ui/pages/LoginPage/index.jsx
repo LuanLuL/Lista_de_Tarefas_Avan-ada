@@ -63,7 +63,7 @@ export function LoginPage() {
       })
       .catch((error) => {
         console.log(
-          `://LoginPage::handleSing => <Error> \n\n${error.reason}\n\n</Error>`
+          `./LoginPage::handleSing => <Error> \n\n${error.reason}\n\n</Error>`
         );
         alert("Nome de usuário ou Senha incorretos.");
       });

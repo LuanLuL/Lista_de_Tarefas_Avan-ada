@@ -78,7 +78,7 @@
   }
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 540px) {
   #registerScreen aside h1 {
     font-size: 32px;
   }
@@ -94,7 +94,7 @@
   }
 }
 
-@media screen and (max-width: 312px) {
+@media screen and (max-width: 320px) {
   #registerScreen aside h1 {
     font-size: 18px;
   }

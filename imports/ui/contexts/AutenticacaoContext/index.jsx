@@ -5,9 +5,12 @@ import { useTracker } from "meteor/react-meteor-data";
 export const AutenticacaoContext = createContext({});
 
 export function AutenticacoContextProvider(props) {
-  const user = useTracker(() => Meteor.user());
-
-  useEffect(() => {}, []);
+  const user = useTracker(() => {
+    if (!Meteor.subscribe("users").ready) {
+      return undefined;
+    }
+    return Meteor.user();
+  });
 
   function handleSingIn(name, password) {
     return new Promise((resolve, reject) => {
@@ -22,7 +25,15 @@ export function AutenticacoContextProvider(props) {
   }
 
   function handleSignOut() {
-    Meteor.logout();
+    return new Promise((resolve, reject) => {
+      Meteor.logout((error) => {
+        if (error) {
+          reject(error); // Rejeita a promessa se houver um erro
+        } else {
+          resolve(); // Resolve a promessa se o login for bem-sucedido
+        }
+      });
+    });
   }
 
   return (

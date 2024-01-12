@@ -4,6 +4,7 @@ import { ServiceConfiguration } from "meteor/service-configuration";
 import "/imports/api/tasksMethods";
 import "/imports/api/usersMethods";
 import "/imports/api/tasksPublications";
+import "/imports/api/usersPublications";
 
 const SEED_USERNAME = "meteorite";
 const SEED_PASSWORD = "password";

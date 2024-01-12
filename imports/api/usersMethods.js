@@ -15,7 +15,6 @@ Meteor.methods({
       username: name,
       password: password,
     });
-    
   },
   "users.setRegisterDatas"(email, idade, genero) {
     check(email, String);
@@ -28,9 +27,11 @@ Meteor.methods({
 
     Meteor.users.update(this.userId, {
       $set: {
-        email: email,
-        idade: idade,
-        genero: genero,
+        profile: {
+          email: email,
+          idade: idade,
+          genero: genero,
+        },
       },
     });
   },
