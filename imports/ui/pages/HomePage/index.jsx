@@ -5,8 +5,9 @@ import "./style.css";
 
 export function HomePage() {
   const { user } = useUsuario();
+  console.log(user);
   return (
-    <section>
+    <section id="homeScreen">
       {user === undefined ? (
         <CircularProgress color="black" />
       ) : (
@@ -14,8 +15,9 @@ export function HomePage() {
           <h1>HomePage</h1>
           <h2>{user.username}</h2>
           <h2>{user.profile.genero}</h2>
-          <h2>{user.profile.email}</h2>
-          <h2>{user.profile.idade}</h2>
+          <h2>{user.emails[0].address}</h2>
+          <h2>{user.profile.dataNascimento}</h2>
+          <h2>{user.profile.empresa}</h2>
         </div>
       )}
     </section>

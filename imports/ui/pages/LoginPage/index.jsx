@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUsuario } from "../../hooks";
-import { InputPassword, InputText } from "../../components";
+import { InputPassword, InputText, WarnModal } from "../../components";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import LoginIcon from "@mui/icons-material/Login";
@@ -10,6 +10,9 @@ import "./style.css";
 export function LoginPage() {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [openModal, setOpenModal] = React.useState(false);
+  const [titleModal, setTitleModal] = React.useState("");
+  const [textModal, setTextModal] = React.useState("");
   const { handleSingIn } = useUsuario();
   const history = useNavigate();
 
@@ -47,13 +50,25 @@ export function LoginPage() {
           <Link to="/register">Clique Aqui</Link>.
         </p>
       </footer>
+      {openModal && (
+        <WarnModal
+          value={openModal}
+          setValue={(controlModal) => setOpenModal(controlModal)}
+          title={titleModal}
+          text={textModal}
+        />
+      )}
     </section>
   );
 
   function handleLoginUser(event) {
     event.preventDefault();
     if (userName.trim() === "" || userPassword.trim() === "") {
-      alert("Você deve preecher todos os campos");
+      setTitleModal("Campos obrigatórios vazios");
+      setTextModal(
+        "Por favor, preencha todos os campos obrigatórios para continuar."
+      );
+      setOpenModal(true);
       return;
     }
 
@@ -65,7 +80,11 @@ export function LoginPage() {
         console.log(
           `./LoginPage::handleSing => <Error> \n\n${error.reason}\n\n</Error>`
         );
-        alert("Nome de usuário ou Senha incorretos.");
+        setTitleModal("Usuário não encontrado");
+        setTextModal(
+          "As credenciais fornecidas são inválidas. Por favor, tente novamente."
+        );
+        setOpenModal(true);
       });
   }
 }

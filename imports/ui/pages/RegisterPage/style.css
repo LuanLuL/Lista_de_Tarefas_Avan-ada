@@ -64,6 +64,11 @@
   color: #000;
 }
 
+.inputDate {
+  background-color: #fff;
+  width: 277px;
+}
+
 @media screen and (max-width: 1300px) {
   #registerScreen aside h1 {
     font-size: 48px;

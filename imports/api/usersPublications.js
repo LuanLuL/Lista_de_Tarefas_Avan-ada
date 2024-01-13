@@ -5,7 +5,12 @@ Meteor.publish("users", function publishUsers() {
     const user = Meteor.users.find(
       { _id: this.userId },
       {
-        fields: { "profile.email": 1, "profile.idade": 1, "profile.genero": 1 },
+        fields: {
+          "profile.email": 1,
+          "profile.dataNascimento": 1,
+          "profile.genero": 1,
+          "profile.empresa": 1,
+        },
       }
     );
     return user;

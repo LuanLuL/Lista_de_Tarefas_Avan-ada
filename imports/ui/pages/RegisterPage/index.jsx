@@ -5,24 +5,30 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Meteor } from "meteor/meteor";
-import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { InputPassword, InputSelect, InputText } from "../../components";
+import { InputPassword, InputText, WarnModal } from "../../components";
 import Button from "@mui/material/Button";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateField } from "@mui/x-date-pickers/DateField";
+import dayjs from "dayjs";
 import { useUsuario } from "../../hooks";
 import "./style.css";
 
 export function RegisterPage() {
   const [userName, setUserName] = React.useState("");
+  const [userEmpresa, setUserEmpresa] = React.useState("");
   const [userPassword, setUserPassword] = React.useState("");
   const [userEmail, setUserEmail] = React.useState("");
   const [userGenero, setUserGenero] = React.useState("");
-  const [userIdade, setUserIdade] = React.useState(0);
+  const [userNascimento, setUserNascimento] = React.useState("");
+  const [openModal, setOpenModal] = React.useState(false);
+  const [titleModal, setTitleModal] = React.useState("");
+  const [textModal, setTextModal] = React.useState("");
   const history = useNavigate();
   const { handleSingIn } = useUsuario();
-
   return (
     <section id="registerScreen">
       <aside>
@@ -41,19 +47,20 @@ export function RegisterPage() {
             value={userName}
             setValue={(textInputText) => setUserName(textInputText)}
           />
-          <InputSelect
-            text="Idade"
-            value={userIdade === 0 ? "" : userIdade}
-            setValue={(textInputSelect) => setUserIdade(textInputSelect)}
-          >
-            {Array.from({ length: 88 }, (_, index) => index + 12).map(
-              (item) => (
-                <MenuItem key={item} value={item}>
-                  {item}
-                </MenuItem>
-              )
-            )}
-          </InputSelect>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateField
+              color="black"
+              label="Data de Nascimento"
+              className="inputDate"
+              value={userNascimento !== "" ? dayjs(userNascimento) : undefined}
+              format="DD/MM/YYYY"
+              onChange={(newValue) =>
+                setUserNascimento(
+                  newValue ? dayjs(newValue).format("DD/MM/YYYY") : ""
+                )
+              }
+            />
+          </LocalizationProvider>
           <FormControl style={{ paddingLeft: 45 }}>
             <FormLabel id="demo-row-radio-buttons-group-label" color="black">
               Genêro
@@ -85,6 +92,11 @@ export function RegisterPage() {
               />
             </RadioGroup>
           </FormControl>
+          <InputText
+            text="Empresa"
+            value={userEmpresa}
+            setValue={(textInputText) => setUserEmpresa(textInputText)}
+          />
           <InputPassword
             text="Senha"
             value={userPassword}
@@ -105,6 +117,14 @@ export function RegisterPage() {
           Já possui uma conta no sistema! <Link to="/login">Entrar</Link>.
         </p>
       </footer>
+      {openModal && (
+        <WarnModal
+          value={openModal}
+          setValue={(controlModal) => setOpenModal(controlModal)}
+          title={titleModal}
+          text={textModal}
+        />
+      )}
     </section>
   );
 
@@ -114,7 +134,8 @@ export function RegisterPage() {
       userPassword === "" ||
       userEmail.trim() === "" ||
       userGenero.trim() === "" ||
-      userIdade === 0
+      userNascimento.trim() === "" ||
+      userEmpresa.trim() === ""
     );
   }
 
@@ -130,12 +151,20 @@ export function RegisterPage() {
     event.preventDefault();
 
     if (checkInputs()) {
-      alert("Você deve preecher todos os campos");
+      setTitleModal("Campos obrigatórios vazios");
+      setTextModal(
+        "Por favor, preencha todos os campos obrigatórios para continuar."
+      );
+      setOpenModal(true);
       return;
     }
 
     if (!emailValidation()) {
-      alert("Você precisa inserir um e-mail válido");
+      setTitleModal("Evamil inválido");
+      setTextModal(
+        "O email fornecido é inválido. Por favor, insira um email válido para continuar."
+      );
+      setOpenModal(true);
       return;
     }
 
@@ -145,30 +174,38 @@ export function RegisterPage() {
       "users.register",
       userName.trim(),
       userPassword,
+      userEmail.trim(),
       function (error) {
         if (error) {
-          alert(error.reason);
+          setTitleModal(error.error);
+          setTextModal(error.reason);
+          setOpenModal(true);
         } else {
           handleSingIn(userName.trim(), userPassword)
             .then(() => {
               Meteor.call(
                 "users.setRegisterDatas",
-                userEmail.trim(),
-                userIdade,
+                userNascimento,
                 userGenero,
+                userEmpresa,
                 function (error) {
                   if (error) {
-                    alert(error.reason);
+                    setTitleModal(error.error);
+                    setTextModal(error.reason);
+                    setOpenModal(true);
+                  } else {
+                    history("/home");
                   }
                 }
               );
-              history("/home");
             })
             .catch((error) => {
               console.log(
                 `./RegisterPage::handleRegisterUser()::handleSing() => <Error> \n\n${error.reason}\n\n</Error>`
               );
-              alert("Erro ao cadastrar usuário");
+              setTitleModal(error.error);
+              setTextModal(error.reason);
+              setOpenModal(true);
             });
         }
       }

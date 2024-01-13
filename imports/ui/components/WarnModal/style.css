@@ -1,0 +1,29 @@
+#modalWarnScreen {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 400px;
+}
+
+.buttonContent {
+  margin-left: auto;
+}
+
+.titleWarnModal {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 8px;
+}
+
+@media screen and (max-width: 450px) {
+  #modalWarnScreen {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  #modalWarnScreen {
+    width: 260px;
+  }
+}

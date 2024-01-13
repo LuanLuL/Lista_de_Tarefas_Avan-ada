@@ -24,3 +24,19 @@ export function InputSelect(props) {
     </Box>
   );
 }
+
+{
+  /* <InputSelect
+  text="Idade"
+  value={userIdade === 0 ? "" : userIdade}
+  setValue={(textInputSelect) => setUserIdade(textInputSelect)}
+>
+  {Array.from({ length: 88 }, (_, index) => index + 12).map(
+    (item) => (
+      <MenuItem key={item} value={item}>
+        {item}
+      </MenuItem>
+    )
+  )}
+</InputSelect> */
+}
