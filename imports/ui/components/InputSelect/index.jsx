@@ -1,42 +1,77 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Meteor } from "meteor/meteor";
 import "./style.css";
 
-export function InputSelect(props) {
-  return (
-    <Box sx={{ minWidth: 277 }}>
-      <FormControl color="black" fullWidth className="selectInput">
-        <InputLabel id="demo-simple-select-label">{props.text}</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={props.value}
-          label={props.text}
-          onChange={(e) => props.setValue(e.target.value)}
-        >
-          {props.children}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-}
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
-{
-  /* <InputSelect
-  text="Idade"
-  value={userIdade === 0 ? "" : userIdade}
-  setValue={(textInputSelect) => setUserIdade(textInputSelect)}
->
-  {Array.from({ length: 88 }, (_, index) => index + 12).map(
-    (item) => (
-      <MenuItem key={item} value={item}>
-        {item}
-      </MenuItem>
-    )
-  )}
-</InputSelect> */
+const options = ["Cadastrada", "Em andamento", "Concluída"];
+
+export function InputSelect(props) {
+  const [taskStatus, setTaskStatus] = React.useState(props.status || "");
+  const [openModal, setOpenModal] = React.useState(false);
+  const [titleModal, setTitleModal] = React.useState("");
+  const [textModal, setTextModal] = React.useState("");
+
+  function handleChangeStatus(event) {
+    setTaskStatus(event.target.value);
+    Meteor.call(
+      "tasks.setStatus",
+      props.id,
+      event.target.value,
+      function (error) {
+        if (error) {
+          setTitleModal(error.error);
+          setTextModal(error.reason);
+          setOpenModal(true);
+        }
+      }
+    );
+  }
+
+  return (
+    <div>
+      <Select
+        className="selectInput"
+        displayEmpty
+        color="white"
+        value={taskStatus}
+        onChange={(e) => handleChangeStatus(e)}
+        input={<OutlinedInput />}
+        renderValue={(selected) => {
+          if (selected.length === 0) {
+            return <em>{taskStatus}</em>;
+          }
+          return selected;
+        }}
+        MenuProps={MenuProps}
+        inputProps={{ "aria-label": "Without label" }}
+      >
+        {options.map((name, index) => (
+          <MenuItem key={index} value={name}>
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+      {openModal && (
+        <WarnModal
+          value={openModal}
+          setValue={(controlModal) => setOpenModal(controlModal)}
+          title={titleModal}
+          text={textModal}
+        />
+      )}
+    </div>
+  );
 }

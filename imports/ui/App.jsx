@@ -11,6 +11,18 @@ export function App() {
         main: "#000",
         contrastText: "#FFF",
       },
+      white: {
+        main: "#FFF",
+        contrastText: "#000",
+      },
+      green: {
+        main: "#028D15",
+        contrastText: "#000",
+      },
+      yellow: {
+        main: "#EBE909",
+        contrastText: "#000",
+      },
     },
   });
 

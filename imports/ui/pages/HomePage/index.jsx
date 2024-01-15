@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useUsuario } from "../../hooks";
+import List from "@mui/material/List";
+import { useUsuario, useTask } from "../../hooks";
+import { Task } from "../../components";
 import "./style.css";
 
 export function HomePage() {
   const { user } = useUsuario();
-  console.log(user);
+  const { tasks } = useTask();
+
   return (
     <section id="homeScreen">
-      {user === undefined ? (
-        <CircularProgress color="black" />
-      ) : (
+      {!user ? (
         <div>
-          <h1>HomePage</h1>
-          <h2>{user.username}</h2>
-          <h2>{user.profile.genero}</h2>
-          <h2>{user.emails[0].address}</h2>
-          <h2>{user.profile.dataNascimento}</h2>
-          <h2>{user.profile.empresa}</h2>
+          <CircularProgress color="black" />
+          <p className="loading">Buscando por usuário ...</p>
         </div>
+      ) : (
+        <List className="taskList">
+          {!tasks ? (
+            <div>
+              <CircularProgress color="black" />
+              <p className="loading">Buscando pelas tarefas ...</p>
+            </div>
+          ) : (
+            tasks.map((task) => <Task key={task._id} task={task} />)
+          )}
+        </List>
       )}
     </section>
   );

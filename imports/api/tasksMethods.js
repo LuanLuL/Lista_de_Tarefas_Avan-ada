@@ -5,7 +5,7 @@ import { TasksCollection } from "../db/TasksCollection";
 Meteor.methods({
   "tasks.insert"(text) {
     check(text, String);
-    
+
     if (!this.userId) {
       throw new Meteor.Error("Não autorizado.");
     }
@@ -27,17 +27,20 @@ Meteor.methods({
     TasksCollection.remove(taskId);
   },
 
-  "tasks.setIsChecked"(taskId, isChecked) {
+  "tasks.setStatus"(taskId, status) {
     check(taskId, String);
-    check(isChecked, Boolean);
+    check(status, String);
 
     if (!this.userId) {
-      throw new Meteor.Error("Não autorizado.");
+      throw new Meteor.Error(
+        "Usuario inválido!",
+        "Você não possui autorização para realizar a ação solicitada. Agradecemos pela compreensão."
+      );
     }
 
     TasksCollection.update(taskId, {
       $set: {
-        isChecked,
+        status: status,
       },
     });
   },

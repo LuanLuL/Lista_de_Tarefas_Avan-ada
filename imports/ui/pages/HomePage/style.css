@@ -1,0 +1,28 @@
+#homeScreen {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  text-align: center;
+}
+
+.loading {
+  font-size: 16px;
+  letter-spacing: 1.3px;
+  font-weight: bold;
+  color: #000; /* Cor do texto, ajuste conforme necessário */
+  margin-top: 10px;
+}
+
+.taskList {
+  height: auto;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+  background-color: cyan;
+}
