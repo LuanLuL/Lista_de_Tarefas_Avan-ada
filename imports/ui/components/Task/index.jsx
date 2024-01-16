@@ -9,7 +9,7 @@ import "./style.css";
 export function Task({ task }) {
   return (
     <ListItem
-      className="colorTask taskContent"
+      className="colorTask taskCard"
       secondaryAction={
         <div className="optionsTaks">
           <InputSelect id={task._id} status={task.status} />

@@ -11,6 +11,10 @@ export function App() {
         main: "#000",
         contrastText: "#FFF",
       },
+      red: {
+        main: "#C62828",
+        contrastText: "#000",
+      },
       white: {
         main: "#FFF",
         contrastText: "#000",

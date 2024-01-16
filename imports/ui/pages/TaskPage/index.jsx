@@ -9,26 +9,20 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import IconButton from "@mui/material/IconButton";
+import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CircularProgress from "@mui/material/CircularProgress";
-import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import { CardOptionsView } from "../../components";
 import { useNavigate } from "react-router-dom";
 import { useUsuario, useTask } from "../../hooks";
+import { Task } from "../../components";
 import "./style.css";
 
-export function HomePage() {
+export function TaskPage() {
   const history = useNavigate();
   const { user } = useUsuario();
-  const { tasksCount, emAndamentosCount, concluidasCount, cadastradasCount } =
-    useTask();
+  const { tasks } = useTask();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-  console.log("tasksCount:", tasksCount);
-  console.log("emAndamentosCount:", emAndamentosCount);
-  console.log("concluidasCount:", concluidasCount);
-  console.log("cadastradasCount:", cadastradasCount);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -124,14 +118,14 @@ export function HomePage() {
   );
 
   return (
-    <section id="homeScreen">
+    <section id="taskScreen">
       {!user ? (
         <div>
           <CircularProgress color="black" />
           <p className="loading">Buscando por usuário ...</p>
         </div>
       ) : (
-        <div className="homeContent">
+        <div className="taskContent">
           <header className="drawer">
             <IconButton
               color="white"
@@ -150,51 +144,26 @@ export function HomePage() {
               {list}
             </Drawer>
           </header>
-          {tasksCount === undefined ||
-          !emAndamentosCount === undefined ||
-          !concluidasCount === undefined ||
-          !cadastradasCount === undefined ? (
+          {tasks === undefined ? (
             <div>
               <CircularProgress color="black" />
               <p className="loading">Buscando por tarefas ...</p>
             </div>
           ) : (
-            <main className="mainHome">
-              <CardOptionsView option={1} color="white">
-                <div>
-                  <p>Ver</p>
-                  <p>Todas As</p>
-                  <p>Tarefas</p>
-                </div>
-                <span>{tasksCount}</span>
-              </CardOptionsView>
-              <CardOptionsView option={2} color="red">
-                <div>
-                  <p>Ver</p>
-                  <p>Tarefas</p>
-                  <p>Cadastradas</p>
-                </div>
-                <span>{cadastradasCount}</span>
-              </CardOptionsView>
-              <CardOptionsView option={3} color="yellow">
-                <div>
-                  <p>Ver</p>
-                  <p>Tarefas</p>
-                  <p>Em andamento</p>
-                </div>
-                <span>{emAndamentosCount}</span>
-              </CardOptionsView>
-              <CardOptionsView option={4} color="green">
-                <div>
-                  <p>Ver</p>
-                  <p>Tarefas</p>
-                  <p>Concluídas</p>
-                </div>
-                <span>{concluidasCount}</span>
-              </CardOptionsView>
+            <main className="mainTask">
+              <List className="taskList">
+                {!tasks ? (
+                  <div>
+                    <CircularProgress color="black" />
+                    <p className="loading">Buscando pelas tarefas ...</p>
+                  </div>
+                ) : (
+                  tasks.map((task) => <Task key={task._id} task={task} />)
+                )}
+              </List>
             </main>
           )}
-          <footer className="footerHome">
+          <footer className="footerTask">
             <p>Desevolvido por Luan Gonçalves Santos</p>
           </footer>
         </div>

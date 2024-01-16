@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage, RegisterPage, HomePage } from "../pages";
+import { LoginPage, RegisterPage, HomePage, TaskPage } from "../pages";
 
 export function Rotas() {
   return (
@@ -9,6 +9,7 @@ export function Rotas() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/tasks" element={<TaskPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

@@ -1,0 +1,52 @@
+.cardOptionsView {
+  width: calc(100% / 2 - 30px);
+  height: auto;
+  padding: 0px 10px;
+  transition: 0.4s ease;
+}
+
+.textContent {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-weight: 600;
+  font-size: 28px;
+  box-shadow: none;
+  background-color: transparent;
+
+  text-transform: initial;
+  font-family: "Popins", sans-serif;
+}
+
+.textContent span {
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
+}
+
+.textContent div p {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 526px) and (max-width: 768px) {
+  .cardOptionsView {
+    width: calc(100% / 2 - 30px);
+  }
+
+  .textContent {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 525px) {
+  .cardOptionsView {
+    width: 100%;
+  }
+
+  .textContent {
+    font-size: 21px;
+  }
+}
