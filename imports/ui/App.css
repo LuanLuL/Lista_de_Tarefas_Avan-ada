@@ -23,7 +23,11 @@ button {
   margin-right: 0px;
 }
 
-.loading {
+.loadingContent {
+  margin: 40vh auto;
+}
+
+.loadingContent p {
   font-size: 16px;
   letter-spacing: 1.3px;
   font-weight: bold;

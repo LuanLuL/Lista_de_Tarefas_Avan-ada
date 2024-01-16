@@ -5,3 +5,4 @@ export * from "./WarnModal";
 export * from "./Task";
 export * from "./InputOptions";
 export * from "./CardOptionsView";
+export * from "./DrawerHeader";

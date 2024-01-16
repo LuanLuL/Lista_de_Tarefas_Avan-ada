@@ -3,17 +3,27 @@ import { check } from "meteor/check";
 import { TasksCollection } from "../db/TasksCollection";
 
 Meteor.methods({
-  "tasks.insert"(text) {
-    check(text, String);
+  "tasks.insert"(titulo, descricao, userName) {
+    check(titulo, String);
+    check(descricao, String);
+    check(userName, String);
 
     if (!this.userId) {
-      throw new Meteor.Error("Não autorizado.");
+      throw new Meteor.Error(
+        "Usuario inválido!",
+        "Você não possui autorização para realizar a ação solicitada. Agradecemos pela compreensão."
+      );
     }
 
     TasksCollection.insert({
-      text: text,
+      name: titulo,
+      description: descricao,
       createdAt: new Date(),
-      userId: this.userId,
+      user: {
+        userId: this.userId,
+        userName: userName,
+      },
+      status: "Cadastrada",
     });
   },
 
@@ -21,7 +31,10 @@ Meteor.methods({
     check(taskId, String);
 
     if (!this.userId) {
-      throw new Meteor.Error("Não autorizado.");
+      throw new Meteor.Error(
+        "Usuario inválido!",
+        "Você não possui autorização para realizar a ação solicitada. Agradecemos pela compreensão."
+      );
     }
 
     TasksCollection.remove(taskId);

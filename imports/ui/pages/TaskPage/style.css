@@ -16,13 +16,11 @@
   justify-content: start;
   align-items: center;
   gap: 20px;
-  background-color: cyan;
 }
 
 .taskContent {
   height: 100%;
   width: 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -33,34 +31,46 @@
   margin: 0 auto;
   height: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 37px;
+  margin-top: 135px;
   gap: 20px;
   padding: 0px 20px 35px 20px;
-}
-
-.drawer {
-  box-shadow: 0 3px 3px rgba(34, 25, 25, 0.4);
-  background-image: none;
-  background-color: black;
-  color: #fff;
-  padding: 30px 20px;
-  display: flex;
-  justify-content: stretch;
-  width: 100%;
-  align-items: center;
-}
-
-.drawer h1 {
-  font-family: "Popins", sans-serif;
-  font-size: 28px;
-  letter-spacing: 2px;
-  text-transform: none;
 }
 
 .footerTask {
   text-align: center;
   letter-spacing: 1.2px;
   padding-bottom: 20px;
+}
+
+.formTask {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  height: 0px;
+  transition: height 0.3s ease-out, opacity 0.2s ease-out;
+}
+
+.controlFormTaks {
+  margin: 20px auto;
+  min-width: 800px;
+  background-color: transparent;
+  position: relative;
+}
+
+.buttonFormTaks {
+  position: absolute;
+  top: -30px;
+  right: -40px;
+  margin-right: 0px;
+}
+
+.openControlFormTaks {
+  height: 200px;
+  opacity: 1;
 }

@@ -1,0 +1,22 @@
+.drawer {
+  box-shadow: 0 3px 3px rgba(34, 25, 25, 0.4);
+  background-image: none;
+  background-color: black;
+  color: #fff;
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.drawer h1 {
+  font-family: "Popins", sans-serif;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-transform: none;
+}
