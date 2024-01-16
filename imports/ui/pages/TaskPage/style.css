@@ -56,9 +56,13 @@
   transition: height 0.3s ease-out, opacity 0.2s ease-out;
 }
 
+.formTask h2 {
+  font-size: 24px;
+}
+
 .controlFormTaks {
   margin: 20px auto;
-  min-width: 800px;
+  width: 800px;
   background-color: transparent;
   position: relative;
 }

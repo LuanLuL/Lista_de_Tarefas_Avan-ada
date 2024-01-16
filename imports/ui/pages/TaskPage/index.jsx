@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,12 +13,12 @@ import "./style.css";
 export function TaskPage() {
   const { user, handleSignOut } = useUsuario();
   const { tasks } = useTask();
-  const [titleTaks, setTitleTask] = React.useState("");
-  const [descTaks, setDescTask] = React.useState("");
-  const [isFormOpen, setIsFormOpen] = React.useState(false);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [titleModal, setTitleModal] = React.useState("");
-  const [textModal, setTextModal] = React.useState("");
+  const [titleTaks, setTitleTask] = useState("");
+  const [descTaks, setDescTask] = useState("");
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [titleModal, setTitleModal] = useState("");
+  const [textModal, setTextModal] = useState("");
 
   return (
     <section id="taskScreen">
@@ -27,69 +27,68 @@ export function TaskPage() {
           <CircularProgress color="black" />
           <p className="loading">Buscando por usuário ...</p>
         </div>
+      ) : tasks === undefined ? (
+        <div className="loadingContent">
+          <CircularProgress color="black" />
+          <p className="loading">Buscando por tarefas ...</p>
+        </div>
       ) : (
         <div className="taskContent">
           <DrawerHeader />
-          {tasks === undefined ? (
-            <div>
-              <CircularProgress color="black" />
-              <p className="loading">Buscando por tarefas ...</p>
-            </div>
-          ) : !tasks ? (
-            <div className="loadingContent">
-              <CircularProgress color="black" />
-              <p>Buscando pelas tarefas ...</p>
-            </div>
-          ) : (
-            <main className="mainTask">
-              <div className="controlFormTaks" style={{ width: "100%" }}>
-                <form
-                  className={`formTask ${
-                    isFormOpen ? " openControlFormTaks" : ""
-                  }`}
-                  onSubmit={handleAddNewTaks}
-                >
-                  <h2>Criar nova Tarefa</h2>
-                  <InputText
-                    text="Nome"
-                    value={titleTaks}
-                    setValue={(textInputText) => setTitleTask(textInputText)}
-                  />
-                  <InputText
-                    text="Descrição"
-                    value={descTaks}
-                    setValue={(textInputText) => setDescTask(textInputText)}
-                  />
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="black"
-                    startIcon={<AddTaskIcon />}
-                  >
-                    Adicionar
-                  </Button>
-                </form>
-                <IconButton
-                  className="buttonFormTaks"
+          <main className="mainTask">
+            <div className="controlFormTaks">
+              <form
+                className={`formTask ${
+                  isFormOpen ? " openControlFormTaks" : ""
+                }`}
+                onSubmit={handleAddNewTaks}
+              >
+                <h2>Criar nova Tarefa</h2>
+                <InputText
+                  text="Nome"
+                  value={titleTaks}
+                  setValue={(textInputText) => setTitleTask(textInputText)}
+                />
+                <InputText
+                  text="Descrição"
+                  value={descTaks}
+                  setValue={(textInputText) => setDescTask(textInputText)}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
                   color="black"
-                  aria-label="open drawer"
-                  onClick={toggleForm}
-                  sx={{ mr: 2 }}
+                  startIcon={<AddTaskIcon />}
                 >
-                  {!isFormOpen ? (
-                    <AddIcon fontSize="large" />
-                  ) : (
-                    <CloseIcon fontSize="large" />
-                  )}
-                </IconButton>
-              </div>
-              <List className="taskList">
-                {tasks.map((task) => (
-                  <Task key={task._id} task={task} />
-                ))}
-              </List>
-            </main>
-          )}
+                  Adicionar
+                </Button>
+              </form>
+              <IconButton
+                className="buttonFormTaks"
+                style={{ position: "absolute" }}
+                color="black"
+                aria-label="open drawer"
+                onClick={toggleForm}
+              >
+                {!isFormOpen ? (
+                  <AddIcon fontSize="large" />
+                ) : (
+                  <CloseIcon fontSize="large" />
+                )}
+              </IconButton>
+            </div>
+            <List className="taskList">
+              {tasks.map((task) => (
+                <Task
+                  key={task._id}
+                  task={task}
+                  setOpenM={(inputSetOpenM) => setOpenModal(inputSetOpenM)}
+                  setTitleM={(inputSetTitleM) => setTitleModal(inputSetTitleM)}
+                  setTextM={(inputSetTextM) => setTextModal(inputSetTextM)}
+                />
+              ))}
+            </List>
+          </main>
           <footer className="footerTask">
             <p>Desevolvido por Luan Gonçalves Santos</p>
           </footer>
@@ -108,10 +107,6 @@ export function TaskPage() {
 
   function toggleForm() {
     setIsFormOpen(!isFormOpen);
-  }
-
-  function handleOptionDrawer(directory) {
-    history(directory);
   }
 
   function handleLogout() {

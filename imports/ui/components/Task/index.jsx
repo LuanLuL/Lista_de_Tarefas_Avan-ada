@@ -6,14 +6,27 @@ import TurnedInIcon from "@mui/icons-material/TurnedIn";
 import { InputOptions, InputSelect } from "../../components";
 import "./style.css";
 
-export function Task({ task }) {
+export function Task({ task, setOpenM, setTitleM, setTextM }) {
   return (
     <ListItem
       className="colorTask taskCard"
       secondaryAction={
         <div className="optionsTaks">
-          <InputSelect id={task._id} status={task.status} />
-          <InputOptions />
+          <InputSelect
+            id={task._id}
+            status={task.status}
+            userId={task.user.userId}
+            setOpenM={setOpenM}
+            setTitleM={setTitleM}
+            setTextM={setTextM}
+          />
+          <InputOptions
+            id={task._id}
+            userId={task.user.userId}
+            setOpenM={setOpenM}
+            setTitleM={setTitleM}
+            setTextM={setTextM}
+          />
         </div>
       }
     >

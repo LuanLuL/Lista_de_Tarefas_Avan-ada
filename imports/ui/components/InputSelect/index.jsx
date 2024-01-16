@@ -3,6 +3,8 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Meteor } from "meteor/meteor";
+import { useUsuario } from "../../hooks";
+import { WarnModal } from "../";
 import "./style.css";
 
 const ITEM_HEIGHT = 48;
@@ -19,12 +21,18 @@ const MenuProps = {
 const options = ["Cadastrada", "Em andamento", "Concluída"];
 
 export function InputSelect(props) {
+  const { user } = useUsuario();
   const [taskStatus, setTaskStatus] = React.useState(props.status || "");
-  const [openModal, setOpenModal] = React.useState(false);
-  const [titleModal, setTitleModal] = React.useState("");
-  const [textModal, setTextModal] = React.useState("");
 
   function handleChangeStatus(event) {
+    if (props.userId !== user._id) {
+      props.setTitleM("Usuario inválido!");
+      props.setTextM(
+        "Você não tem permissão para modificar informações relacionadas a tarefas de outros usuários."
+      );
+      props.setOpenM(true);
+      return;
+    }
     setTaskStatus(event.target.value);
     Meteor.call(
       "tasks.setStatus",
@@ -32,9 +40,9 @@ export function InputSelect(props) {
       event.target.value,
       function (error) {
         if (error) {
-          setTitleModal(error.error);
-          setTextModal(error.reason);
-          setOpenModal(true);
+          props.setTitleM(error.error);
+          props.setTextM(error.reason);
+          props.setOpenM(true);
         }
       }
     );
@@ -64,14 +72,6 @@ export function InputSelect(props) {
           </MenuItem>
         ))}
       </Select>
-      {openModal && (
-        <WarnModal
-          value={openModal}
-          setValue={(controlModal) => setOpenModal(controlModal)}
-          title={titleModal}
-          text={textModal}
-        />
-      )}
     </div>
   );
 }
