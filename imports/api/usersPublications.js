@@ -10,6 +10,7 @@ Meteor.publish("users", function publishUsers() {
           "profile.dataNascimento": 1,
           "profile.genero": 1,
           "profile.empresa": 1,
+          "profile.foto": 1,
         },
       }
     );

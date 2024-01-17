@@ -9,11 +9,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import IconButton from "@mui/material/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NoMeetingRoomIcon from "@mui/icons-material/NoMeetingRoom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { WarnModal } from "../../components";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 import { useUsuario } from "../../hooks";
 import "./style.css";
 
@@ -45,12 +45,16 @@ export function DrawerHeader() {
       <List>
         <ListItem key={!user ? "profile" : user._id} disablePadding>
           <ListItemButton>
-            <AccountCircleIcon
-              fontSize="large"
-              color="black"
-              style={{
-                marginRight: 10,
+            <Avatar
+              color="white"
+              sx={{
+                width: "5vmin",
+                height: "5vmin",
+                backgroundColor: "#000",
+                marginRight: 1.5,
               }}
+              src={user.profile.foto}
+              alt="User Photo"
             />
             <ListItemText
               color="black"

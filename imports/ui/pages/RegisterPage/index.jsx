@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -13,20 +13,21 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
-import dayjs from "dayjs";
+import { Avatar, IconButton } from "@mui/material";
 import { useUsuario } from "../../hooks";
 import "./style.css";
 
 export function RegisterPage() {
-  const [userName, setUserName] = React.useState("");
-  const [userEmpresa, setUserEmpresa] = React.useState("");
-  const [userPassword, setUserPassword] = React.useState("");
-  const [userEmail, setUserEmail] = React.useState("");
-  const [userGenero, setUserGenero] = React.useState("");
-  const [userNascimento, setUserNascimento] = React.useState("");
-  const [openModal, setOpenModal] = React.useState(false);
-  const [titleModal, setTitleModal] = React.useState("");
-  const [textModal, setTextModal] = React.useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmpresa, setUserEmpresa] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userGenero, setUserGenero] = useState("");
+  const [userNascimento, setUserNascimento] = useState("");
+  const [userFoto, setUserFoto] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [titleModal, setTitleModal] = useState("");
+  const [textModal, setTextModal] = useState("");
   const history = useNavigate();
   const { handleSingIn } = useUsuario();
   return (
@@ -52,14 +53,56 @@ export function RegisterPage() {
               color="black"
               label="Data de Nascimento"
               className="inputDate"
-              value={userNascimento !== "" ? dayjs(userNascimento) : undefined}
+              value={undefined}
               format="DD/MM/YYYY"
-              onChange={(newValue) =>
-                setUserNascimento(
-                  newValue ? dayjs(newValue).format("DD/MM/YYYY") : ""
-                )
-              }
+              onChange={(newValue) => {
+                if (newValue["$y"] > 999) {
+                  setUserNascimento(
+                    `${
+                      newValue["$D"] < 10
+                        ? "0" + newValue["$D"]
+                        : newValue["$D"]
+                    }/${
+                      newValue["$M"] + 1 < 10
+                        ? "0" + (newValue["$M"] + 1)
+                        : newValue["$M"] + 1
+                    }/${newValue["$y"]}`
+                  );
+                }
+              }}
             />
+            <div>
+              <input
+                accept="image/*"
+                id="upload-avatar-pic"
+                type="file"
+                hidden
+                onChange={handlePhotoChange}
+              />
+              <label
+                htmlFor="upload-avatar-pic"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <IconButton component="span" color="black">
+                  <Avatar
+                    color="white"
+                    sx={{
+                      width: "10vmin",
+                      height: "10vmin",
+                      backgroundColor: "#000",
+                    }}
+                    src={userFoto}
+                    alt="User Photo"
+                  />
+                </IconButton>
+                <span style={{ paddingTop: "8px" }}>Escolher Foto</span>
+              </label>
+            </div>
           </LocalizationProvider>
           <FormControl style={{ paddingLeft: 45 }}>
             <FormLabel id="demo-row-radio-buttons-group-label" color="black">
@@ -129,13 +172,21 @@ export function RegisterPage() {
   );
 
   function checkInputs() {
+    console.log("userName:", userName.trim());
+    console.log("userPassword:", userPassword);
+    console.log("userEmail:", userEmail.trim());
+    console.log("userGenero:", userGenero.trim());
+    console.log("userNascimento:", userNascimento.trim());
+    console.log("userEmpresa:", userEmpresa.trim());
+    console.log("userFoto:", userFoto.trim());
     return (
       userName.trim() === "" ||
       userPassword === "" ||
       userEmail.trim() === "" ||
       userGenero.trim() === "" ||
       userNascimento.trim() === "" ||
-      userEmpresa.trim() === ""
+      userEmpresa.trim() === "" ||
+      userFoto.trim() === ""
     );
   }
 
@@ -145,6 +196,17 @@ export function RegisterPage() {
       return false;
     }
     return true;
+  }
+
+  function handlePhotoChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader(file);
+      reader.onload = (e) => {
+        setUserFoto(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   function handleRegisterUser(event) {
@@ -187,7 +249,8 @@ export function RegisterPage() {
                 "users.setRegisterDatas",
                 userNascimento,
                 userGenero,
-                userEmpresa,
+                userEmpresa.trim(),
+                userFoto.trim(),
                 function (error) {
                   if (error) {
                     setTitleModal(error.error);

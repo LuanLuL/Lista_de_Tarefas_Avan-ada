@@ -28,10 +28,11 @@ Meteor.methods({
       email: email,
     });
   },
-  "users.setRegisterDatas"(data, genero, empresa) {
+  "users.setRegisterDatas"(data, genero, empresa, foto) {
     check(data, String);
     check(genero, String);
     check(empresa, String);
+    check(foto, String);
 
     if (!this.userId) {
       throw new Meteor.Error(
@@ -46,6 +47,7 @@ Meteor.methods({
           dataNascimento: data,
           genero: genero,
           empresa: empresa,
+          foto: foto,
         },
       },
     });

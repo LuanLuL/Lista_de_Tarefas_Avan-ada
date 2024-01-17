@@ -4,7 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Meteor } from "meteor/meteor";
 import { useUsuario } from "../../hooks";
-import { WarnModal } from "../";
 import "./style.css";
 
 const ITEM_HEIGHT = 48;
