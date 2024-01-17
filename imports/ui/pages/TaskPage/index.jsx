@@ -23,14 +23,14 @@ export function TaskPage() {
   return (
     <section id="taskScreen">
       {!user ? (
-        <div>
+        <div className="loadingContent">
           <CircularProgress color="black" />
-          <p className="loading">Buscando por usuário ...</p>
+          <p>Buscando por usuário ...</p>
         </div>
       ) : tasks === undefined ? (
         <div className="loadingContent">
           <CircularProgress color="black" />
-          <p className="loading">Buscando por tarefas ...</p>
+          <p>Buscando por tarefas ...</p>
         </div>
       ) : (
         <div className="taskContent">
@@ -70,11 +70,7 @@ export function TaskPage() {
                 aria-label="open drawer"
                 onClick={toggleForm}
               >
-                {!isFormOpen ? (
-                  <AddIcon fontSize="large" />
-                ) : (
-                  <CloseIcon fontSize="large" />
-                )}
+                {!isFormOpen ? <AddIcon /> : <CloseIcon />}
               </IconButton>
             </div>
             <List className="taskList">
@@ -90,7 +86,7 @@ export function TaskPage() {
             </List>
           </main>
           <footer className="footerTask">
-            <p>Desevolvido por Luan Gonçalves Santos</p>
+            <p>Desevolvido por Luan Santos</p>
           </footer>
           {openModal && (
             <WarnModal

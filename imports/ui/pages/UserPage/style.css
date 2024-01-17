@@ -1,0 +1,51 @@
+#userScreen {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.userContent {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainUser {
+  margin: 0 auto;
+  max-width: 1100px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 140px;
+  gap: 20px;
+  padding: 0px 20px 35px 20px;
+}
+
+.mainUser p {
+  letter-spacing: 1.2px;
+  line-height: 10px;
+}
+
+.mainUser h2 {
+  font-size: 28px;
+}
+
+.initial {
+  text-transform: capitalize;
+}
+
+.footerUser {
+  text-align: center;
+  letter-spacing: 1.2px;
+  padding-bottom: 20px;
+}

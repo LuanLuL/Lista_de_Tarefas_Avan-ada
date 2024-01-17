@@ -41,6 +41,12 @@
   }
 }
 
+@media (min-width: 526px) and (max-width: 580px) {
+  .textContent div p {
+    font-size: 21px;
+  }
+}
+
 @media (max-width: 525px) {
   .cardOptionsView {
     width: 100%;

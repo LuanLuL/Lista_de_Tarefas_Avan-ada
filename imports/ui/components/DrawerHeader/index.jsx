@@ -44,12 +44,12 @@ export function DrawerHeader() {
     >
       <List>
         <ListItem key={!user ? "profile" : user._id} disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => history("/user")}>
             <Avatar
               color="white"
               sx={{
-                width: "5vmin",
-                height: "5vmin",
+                width: "35px",
+                height: "35px",
                 backgroundColor: "#000",
                 marginRight: 1.5,
               }}

@@ -12,9 +12,9 @@ export function HomePage() {
   return (
     <section id="homeScreen">
       {!user ? (
-        <div>
+        <div className="loadingContent">
           <CircularProgress color="black" />
-          <p className="loading">Buscando por usuário ...</p>
+          <p>Buscando por usuário ...</p>
         </div>
       ) : (
         <div className="homeContent">
@@ -64,7 +64,7 @@ export function HomePage() {
             </main>
           )}
           <footer className="footerHome">
-            <p>Desevolvido por Luan Gonçalves Santos</p>
+            <p>Desevolvido por Luan Santos</p>
           </footer>
         </div>
       )}

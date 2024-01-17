@@ -56,7 +56,7 @@ export function RegisterPage() {
               value={undefined}
               format="DD/MM/YYYY"
               onChange={(newValue) => {
-                if (newValue["$y"] > 999) {
+                if (newValue["$y"] ? newValue["$y"] > 999 : false) {
                   setUserNascimento(
                     `${
                       newValue["$D"] < 10
@@ -92,8 +92,8 @@ export function RegisterPage() {
                   <Avatar
                     color="white"
                     sx={{
-                      width: "10vmin",
-                      height: "10vmin",
+                      width: "45px",
+                      height: "45px",
                       backgroundColor: "#000",
                     }}
                     src={userFoto}
@@ -104,37 +104,39 @@ export function RegisterPage() {
               </label>
             </div>
           </LocalizationProvider>
-          <FormControl style={{ paddingLeft: 45 }}>
-            <FormLabel id="demo-row-radio-buttons-group-label" color="black">
-              Genêro
-            </FormLabel>
-            <RadioGroup
-              color="black"
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={userGenero}
-              onChange={(e) => setUserGenero(e.target.value)}
-            >
-              <FormControlLabel
+          <div className="formGenero">
+            <FormControl>
+              <FormLabel id="demo-row-radio-buttons-group-label" color="black">
+                Genêro
+              </FormLabel>
+              <RadioGroup
                 color="black"
-                value="feminino"
-                control={<Radio color="black" />}
-                label="Feminino"
-              />
-              <FormControlLabel
-                value="masculino"
-                control={<Radio color="black" />}
-                label="Masculino"
-                color="black"
-              />
-              <FormControlLabel
-                value="outro"
-                control={<Radio color="black" />}
-                label="Outro"
-              />
-            </RadioGroup>
-          </FormControl>
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={userGenero}
+                onChange={(e) => setUserGenero(e.target.value)}
+              >
+                <FormControlLabel
+                  color="black"
+                  value="feminino"
+                  control={<Radio color="black" />}
+                  label="Feminino"
+                />
+                <FormControlLabel
+                  value="masculino"
+                  control={<Radio color="black" />}
+                  label="Masculino"
+                  color="black"
+                />
+                <FormControlLabel
+                  value="outro"
+                  control={<Radio color="black" />}
+                  label="Outro"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
           <InputText
             text="Empresa"
             value={userEmpresa}

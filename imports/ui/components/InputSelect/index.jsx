@@ -57,7 +57,10 @@ export function InputSelect(props) {
         onChange={(e) => handleChangeStatus(e)}
         input={<OutlinedInput />}
         renderValue={(selected) => {
-          if (selected.length === 0) {
+          if( window.innerWidth <= 540){
+            return <em></em>;
+          }
+          else if (selected.length === 0) {
             return <em>{taskStatus}</em>;
           }
           return selected;

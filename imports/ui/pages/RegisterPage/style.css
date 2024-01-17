@@ -69,6 +69,10 @@
   width: 277px;
 }
 
+.formGenero {
+  padding-left: 45px;
+}
+
 @media screen and (max-width: 1300px) {
   #registerScreen aside h1 {
     font-size: 48px;
@@ -89,7 +93,17 @@
   }
 }
 
+@media screen and (max-width: 430px) {
+  .formGenero {
+    padding-left: 40px;
+  }
+}
+
 @media screen and (max-width: 395px) {
+  .formGenero {
+    padding-left: 30px;
+  }
+
   #registerScreen aside h1 {
     font-size: 24px;
   }

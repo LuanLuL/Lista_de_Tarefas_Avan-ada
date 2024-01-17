@@ -3,3 +3,9 @@
   width: 160px;
   height: 40px;
 }
+
+@media (max-width: 540px) {
+  .selectInput {
+    width: 40px;
+  }
+}

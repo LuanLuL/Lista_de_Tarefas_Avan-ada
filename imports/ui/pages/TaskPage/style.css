@@ -8,9 +8,19 @@
   text-align: center;
 }
 
+.mainTask {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0px 20px 40px 20px;
+}
+
 .taskList {
   height: auto;
-  width: 800px;
+  padding: 0;
+  width: 720px;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -21,22 +31,11 @@
 .taskContent {
   height: 100%;
   width: 100%;
+  padding-top: 110px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-}
-
-.mainTask {
-  margin: 0 auto;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 135px;
-  gap: 20px;
-  padding: 0px 20px 35px 20px;
 }
 
 .footerTask {
@@ -61,20 +60,66 @@
 }
 
 .controlFormTaks {
-  margin: 20px auto;
-  width: 800px;
+  margin: 30px auto 35px auto;
+  width: 720px;
   background-color: transparent;
   position: relative;
 }
 
 .buttonFormTaks {
   position: absolute;
-  top: -30px;
-  right: -40px;
+  top: -20px;
+  right: -10px;
   margin-right: 0px;
 }
 
 .openControlFormTaks {
   height: 200px;
   opacity: 1;
+}
+
+@media (min-width: 540px) and (max-width: 768px) {
+  .taskList {
+    width: 500px;
+  }
+
+  .controlFormTaks {
+    width: 500px;
+  }
+}
+
+@media (max-width: 540px) {
+  .taskList {
+    width: 330px;
+  }
+
+  .controlFormTaks {
+    width: 330px;
+  }
+
+  .formTask h2 {
+    font-size: 21px;
+  }
+
+  .buttonFormTaks {
+    right: -20px;
+  }
+}
+
+@media (max-width: 340px) {
+  .taskList {
+    width: 240px;
+  }
+
+  .controlFormTaks {
+    width: 240px;
+  }
+
+  .taskContent {
+    padding-top: 120px;
+  }
+
+  .controlFormTaks {
+    margin-bottom: 30px;
+  }
 }
