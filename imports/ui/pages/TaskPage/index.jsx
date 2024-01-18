@@ -11,7 +11,7 @@ import { Task, WarnModal, InputText, DrawerHeader } from "../../components";
 import "./style.css";
 
 export function TaskPage() {
-  const { user, handleSignOut } = useUsuario();
+  const { user } = useUsuario();
   const { tasks } = useTask();
   const [titleTaks, setTitleTask] = useState("");
   const [descTaks, setDescTask] = useState("");
@@ -41,7 +41,7 @@ export function TaskPage() {
                 className={`formTask ${
                   isFormOpen ? " openControlFormTaks" : ""
                 }`}
-                onSubmit={handleAddNewTaks}
+                onSubmit={handleAddNewTask}
               >
                 <h2>Criar nova Tarefa</h2>
                 <InputText
@@ -105,24 +105,7 @@ export function TaskPage() {
     setIsFormOpen(!isFormOpen);
   }
 
-  function handleLogout() {
-    handleSignOut()
-      .then(() => {
-        history("/");
-      })
-      .catch((error) => {
-        console.log(
-          `./LoginPage::handleSing => <Error> \n\n${error.reason}\n\n</Error>`
-        );
-        setTitleModal("Erro ao sair");
-        setTextModal(
-          "Ops! Encontramos um problema ao tentar realizar o logout. Por favor, tente novamentemais tarde."
-        );
-        setOpenModal(true);
-      });
-  }
-
-  function handleAddNewTaks(event) {
+  function handleAddNewTask(event) {
     event.preventDefault();
     if (titleTaks.trim() === "" || descTaks == "") {
       setTitleModal("Campos obrigatórios vazios");
