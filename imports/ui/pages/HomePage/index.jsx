@@ -6,8 +6,12 @@ import "./style.css";
 
 export function HomePage() {
   const { user } = useUsuario();
-  const { tasksCount, emAndamentosCount, concluidasCount, cadastradasCount } =
-    useTask();
+  const {
+    tasksCount,
+    emAndamentoTasksCount,
+    concluidasTasksCount,
+    cadastradasTasksCount,
+  } = useTask();
 
   return (
     <section id="homeScreen">
@@ -19,9 +23,9 @@ export function HomePage() {
       ) : (
         <div className="homeContent">
           {tasksCount === undefined ||
-          !emAndamentosCount === undefined ||
-          !concluidasCount === undefined ||
-          !cadastradasCount === undefined ? (
+          !emAndamentoTasksCount === undefined ||
+          !concluidasTasksCount === undefined ||
+          !cadastradasTasksCount === undefined ? (
             <div className="loadingContent">
               <CircularProgress color="black" />
               <p>Buscando por tarefas ...</p>
@@ -29,37 +33,37 @@ export function HomePage() {
           ) : (
             <main className="mainHome">
               <DrawerHeader />
-              <CardOptionsView option={1} color="white">
+              <CardOptionsView option={"todas"} color="white">
                 <div>
                   <p>Ver</p>
-                  <p>Todas As</p>
+                  <p>Todas as</p>
                   <p>Tarefas</p>
                 </div>
                 <span>{tasksCount}</span>
               </CardOptionsView>
-              <CardOptionsView option={2} color="red">
+              <CardOptionsView option={"cadastradas"} color="red">
                 <div>
                   <p>Ver</p>
                   <p>Tarefas</p>
                   <p>Cadastradas</p>
                 </div>
-                <span>{cadastradasCount}</span>
+                <span>{cadastradasTasksCount}</span>
               </CardOptionsView>
-              <CardOptionsView option={3} color="yellow">
+              <CardOptionsView option={"emAndamento"} color="yellow">
                 <div>
                   <p>Ver</p>
                   <p>Tarefas</p>
                   <p>Em andamento</p>
                 </div>
-                <span>{emAndamentosCount}</span>
+                <span>{emAndamentoTasksCount}</span>
               </CardOptionsView>
-              <CardOptionsView option={4} color="green">
+              <CardOptionsView option={"concluidas"} color="green">
                 <div>
                   <p>Ver</p>
                   <p>Tarefas</p>
                   <p>Concluídas</p>
                 </div>
-                <span>{concluidasCount}</span>
+                <span>{concluidasTasksCount}</span>
               </CardOptionsView>
             </main>
           )}

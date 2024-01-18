@@ -83,15 +83,15 @@ export function DrawerHeader() {
             <ListItemText color="black" primary="Dashboard" />
           </ListItemButton>
         </ListItem>
-        <ListItem key={"Explore as Tarefas"} disablePadding>
-          <ListItemButton onClick={() => history("/tasks")}>
+        <ListItem key={"Explore suas tarefas"} disablePadding>
+          <ListItemButton onClick={() => history("/tasks/suas")}>
             <ListAltIcon
               color="black"
               style={{
                 marginRight: 10,
               }}
             />
-            <ListItemText color="black" primary="Explore as Tarefas" />
+            <ListItemText color="black" primary="Explore suas tarefas" />
           </ListItemButton>
         </ListItem>
       </List>

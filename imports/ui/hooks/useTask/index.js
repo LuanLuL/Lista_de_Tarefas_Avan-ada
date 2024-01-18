@@ -2,83 +2,73 @@ import { Meteor } from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
 import { TasksCollection } from "../../../db/TasksCollection.js";
 import { useUsuario } from "../../hooks";
-export function useTask() {
+
+export function useTask(filtro) {
   const { user } = useUsuario();
+
+  function getTasks(status) {
+    let query;
+    switch (status) {
+      case "concluidas":
+        query = { status: "Concluída" };
+        break;
+      case "emAndamento":
+        query = { status: "Em andamento" };
+        break;
+      case "cadastradas":
+        query = { status: "Cadastrada" };
+        break;
+      default:
+        query = {};
+        break;
+    }
+    return Meteor.subscribe("tasks").ready()
+      ? TasksCollection.find(query).fetch()
+      : undefined;
+  }
 
   const {
     tasks,
     tasksCount,
-    tasksEmAndamento,
-    emAndamentosCount,
-    tasksConcluidas,
-    concluidasCount,
-    tasksCadastradas,
-    cadastradasCount,
+    emAndamentoTasksCount,
+    concluidasTasksCount,
+    cadastradasTasksCount,
   } = useTracker(() => {
     if (!user) {
       return {
         tasks: undefined,
         tasksCount: undefined,
-        tasksEmAndamento: undefined,
-        emAndamentosCount: undefined,
-        tasksConcluidas: undefined,
-        concluidasCount: undefined,
-        tasksCadastradas: undefined,
-        cadastradasCount: undefined,
+        emAndamentoTasksCount: undefined,
+        concluidasTasksCount: undefined,
+        cadastradasTasksCount: undefined,
       };
     }
 
-    if (!Meteor.subscribe("tasks").ready()) {
-      return {
-        tasks: undefined,
-        tasksCount: undefined,
-        tasksEmAndamento: undefined,
-        emAndamentosCount: undefined,
-        tasksConcluidas: undefined,
-        concluidasCount: undefined,
-        tasksCadastradas: undefined,
-        cadastradasCount: undefined,
-      };
-    }
-
-    const allTasks = TasksCollection.find().fetch();
-    const tasksCount = allTasks.length;
-
-    const emAndamentoTasks = TasksCollection.find({
-      status: "Em andamento",
-    }).fetch();
-    const emAndamentosCount = emAndamentoTasks.length;
-
-    const concluidasTasks = TasksCollection.find({
-      status: "Concluída",
-    }).fetch();
-    const concluidasCount = concluidasTasks.length;
-
-    const cadastradasTasks = TasksCollection.find({
-      status: "Cadastrada",
-    }).fetch();
-    const cadastradasCount = cadastradasTasks.length;
+    const allTasks = getTasks("todas");
+    const emAndamentoTasks = getTasks("emAndamento");
+    const concluidasTasks = getTasks("concluidas");
+    const cadastradasTasks = getTasks("cadastradas");
 
     return {
-      tasks: allTasks,
-      tasksCount,
-      tasksEmAndamento: emAndamentoTasks,
-      emAndamentosCount,
-      tasksConcluidas: concluidasTasks,
-      concluidasCount,
-      tasksCadastradas: cadastradasTasks,
-      cadastradasCount,
+      tasks: filtro ? getTasks(filtro) : undefined,
+      tasksCount: allTasks ? allTasks.length : undefined,
+      emAndamentoTasksCount: emAndamentoTasks
+        ? emAndamentoTasks.length
+        : undefined,
+      concluidasTasksCount: concluidasTasks
+        ? concluidasTasks.length
+        : undefined,
+      cadastradasTasksCount: cadastradasTasks
+        ? cadastradasTasks.length
+        : undefined,
     };
   });
 
   return {
     tasks,
     tasksCount,
-    tasksEmAndamento,
-    emAndamentosCount,
-    tasksConcluidas,
-    concluidasCount,
-    tasksCadastradas,
-    cadastradasCount,
+    emAndamentoTasksCount,
+    concluidasTasksCount,
+    cadastradasTasksCount,
   };
 }

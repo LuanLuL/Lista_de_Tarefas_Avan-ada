@@ -1,41 +1,18 @@
-import * as React from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 
 export function CardOptionsView(props) {
-  function handleSelectOption(event) {
-    event.preventDefault();
-    switch (props.option) {
-      case 1: {
-        console.log(props.option);
-        break;
-      }
-      case 2: {
-        console.log(props.option);
-        break;
-      }
-      case 3: {
-        console.log(props.option);
-        break;
-      }
-      case 4: {
-        console.log(props.option);
-        break;
-      }
-      default:
-        break;
-    }
-    return;
-  }
-
+  const history = useNavigate();
   return (
     <Button
       className="cardOptionsView"
       color={props.color}
       variant="contained"
-      onClick={(e) => handleSelectOption(e)}
+      onClick={() => history(`/tasks/${props.option}`)}
     >
       <Card
         className="textContent"

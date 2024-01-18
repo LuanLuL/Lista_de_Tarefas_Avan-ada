@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
@@ -11,8 +12,9 @@ import { Task, WarnModal, InputText, DrawerHeader } from "../../components";
 import "./style.css";
 
 export function TaskPage() {
+  const params = useParams();
   const { user } = useUsuario();
-  const { tasks } = useTask();
+  const { tasks } = useTask(params.id);
   const [titleTaks, setTitleTask] = useState("");
   const [descTaks, setDescTask] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
