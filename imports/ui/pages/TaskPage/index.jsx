@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -16,6 +21,7 @@ export function TaskPage() {
   const { user } = useUsuario();
   const { tasks } = useTask(params.id);
   const [titleTaks, setTitleTask] = useState("");
+  const [isTaksPessoal, setIsTaksPessoal] = useState("");
   const [descTaks, setDescTask] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -56,6 +62,38 @@ export function TaskPage() {
                   value={descTaks}
                   setValue={(textInputText) => setDescTask(textInputText)}
                 />
+                <div className="formTipo">
+                  <FormControl>
+                    <FormLabel
+                      id="demo-row-radio-buttons-group-label"
+                      color="black"
+                      className="formTipo"
+                    >
+                      Categoria
+                    </FormLabel>
+                    <RadioGroup
+                      color="black"
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                      value={isTaksPessoal}
+                      onChange={(e) => setIsTaksPessoal(e.target.value)}
+                    >
+                      <FormControlLabel
+                        color="black"
+                        value="Normal"
+                        control={<Radio color="black" />}
+                        label="Normal"
+                      />
+                      <FormControlLabel
+                        value="Pessoal"
+                        control={<Radio color="black" />}
+                        label="Pessoal"
+                        color="black"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
                 <Button
                   type="submit"
                   variant="contained"
@@ -109,7 +147,11 @@ export function TaskPage() {
 
   function handleAddNewTask(event) {
     event.preventDefault();
-    if (titleTaks.trim() === "" || descTaks == "") {
+    if (
+      titleTaks.trim() === "" ||
+      descTaks.trim() === "" ||
+      isTaksPessoal.trim() === ""
+    ) {
       setTitleModal("Campos obrigatórios vazios");
       setTextModal(
         "Por favor, preencha todos os campos obrigatórios para continuar."
@@ -126,6 +168,7 @@ export function TaskPage() {
       titleTaks.trim(),
       descTaks.trim(),
       user.username,
+      isTaksPessoal,
       function (error) {
         if (error) {
           setTitleModal(error.error);
@@ -137,5 +180,6 @@ export function TaskPage() {
     );
     setTitleTask("");
     setDescTask("");
+    setIsTaksPessoal("");
   }
 }

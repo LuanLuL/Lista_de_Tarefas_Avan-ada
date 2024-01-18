@@ -3,10 +3,11 @@ import { check } from "meteor/check";
 import { TasksCollection } from "../db/TasksCollection";
 
 Meteor.methods({
-  "tasks.insert"(titulo, descricao, userName) {
+  "tasks.insert"(titulo, descricao, userName, categoria) {
     check(titulo, String);
     check(descricao, String);
     check(userName, String);
+    check(categoria, String);
 
     if (!this.userId) {
       throw new Meteor.Error(
@@ -24,6 +25,7 @@ Meteor.methods({
         userName: userName,
       },
       status: "Cadastrada",
+      categoria: categoria,
     });
   },
 

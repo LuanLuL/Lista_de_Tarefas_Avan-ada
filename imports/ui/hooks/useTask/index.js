@@ -18,12 +18,18 @@ export function useTask(filtro) {
       case "cadastradas":
         query = { status: "Cadastrada" };
         break;
+      case "suas":
+        query = { "user.userId": user._id };
+        break;
       default:
         query = {};
         break;
     }
+
     return Meteor.subscribe("tasks").ready()
-      ? TasksCollection.find(query).fetch()
+      ? TasksCollection.find(query, {
+          sort: { createdAt: -1 },
+        }).fetch()
       : undefined;
   }
 
