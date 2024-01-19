@@ -2,9 +2,11 @@ import { Meteor } from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
 import { TasksCollection } from "../../../db/TasksCollection.js";
 import { useUsuario } from "../../hooks";
+import { useState } from "react";
 
 export function useTask(filtro) {
   const { user } = useUsuario();
+  const [showCompletedTasks, setShowCompletedTasks] = useState(true);
 
   function getTasks(status) {
     let query;
@@ -24,6 +26,11 @@ export function useTask(filtro) {
       default:
         query = {};
         break;
+    }
+
+    if (!showCompletedTasks) {
+      console.log("Entrou");
+      query.status = { $ne: "Concluída" };
     }
 
     return Meteor.subscribe("tasks").ready()
@@ -76,5 +83,7 @@ export function useTask(filtro) {
     emAndamentoTasksCount,
     concluidasTasksCount,
     cadastradasTasksCount,
+    showCompletedTasks,
+    setShowCompletedTasks,
   };
 }

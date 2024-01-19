@@ -11,6 +11,8 @@ import FormLabel from "@mui/material/FormLabel";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { useUsuario, useTask } from "../../hooks";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import { Task, WarnModal, InputText, DrawerHeader } from "../../components";
@@ -19,11 +21,13 @@ import "./style.css";
 export function TaskPage() {
   const params = useParams();
   const { user } = useUsuario();
-  const { tasks } = useTask(params.id);
   const [titleTaks, setTitleTask] = useState("");
   const [isTaksPessoal, setIsTaksPessoal] = useState("");
   const [descTaks, setDescTask] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const { tasks, showCompletedTasks, setShowCompletedTasks } = useTask(
+    params.id
+  );
   const [openModal, setOpenModal] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [textModal, setTextModal] = useState("");
@@ -65,6 +69,7 @@ export function TaskPage() {
                 <div className="formTipo">
                   <FormControl>
                     <FormLabel
+                      style={{ margin: 0 }}
                       id="demo-row-radio-buttons-group-label"
                       color="black"
                       className="formTipo"
@@ -113,6 +118,26 @@ export function TaskPage() {
                 {!isFormOpen ? <AddIcon /> : <CloseIcon />}
               </IconButton>
             </div>
+            {params.id !== "suas" && params.id !== "todas" ? (
+              <></>
+            ) : (
+              <div className="buttonControlCompletedTaks">
+                <Button
+                  color="black"
+                  aria-label="open drawer"
+                  onClick={toggleIsToShowCompletedTasks}
+                  startIcon={
+                    showCompletedTasks ? (
+                      <CheckBoxOutlineBlankIcon />
+                    ) : (
+                      <CheckBoxIcon color="green" />
+                    )
+                  }
+                >
+                  Ocultar concluídas
+                </Button>
+              </div>
+            )}
             <List className="taskList">
               {tasks.map((task) => (
                 <Task
@@ -143,6 +168,10 @@ export function TaskPage() {
 
   function toggleForm() {
     setIsFormOpen(!isFormOpen);
+  }
+
+  function toggleIsToShowCompletedTasks() {
+    setShowCompletedTasks(!showCompletedTasks);
   }
 
   function handleAddNewTask(event) {
