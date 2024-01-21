@@ -8,10 +8,14 @@
   padding: 0px 20px;
 }
 
+.headerWatchTask {
+  height: 100px;
+  width: 100%;
+}
+
 .watchTaskContent {
   height: 100vh;
   width: 100%;
-  margin-top: 100px;
 }
 
 .mainWatchTask {
@@ -25,11 +29,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 24px;
-  margin-top: 20px;
+  gap: 18px;
+  margin: 40px 0px;
 }
 
 .formWatchTaskLabel {
+  height: auto;
   width: 100%;
   font-family: "Roboto", sans-serif;
   letter-spacing: 1.1px;
@@ -52,8 +57,8 @@
   font-size: 18px;
   font-weight: 500;
   position: absolute;
-  top: -43px;
-  left: 0px;
+  top: 138px;
+  right: 0px;
 }
 
 .formWatchTaskButton {
@@ -62,18 +67,24 @@
   right: -10px;
 }
 
+.footerWatchTask {
+  width: 100%;
+  text-align: center;
+  letter-spacing: 1.2px;
+  padding: 0px 20px;
+  padding-bottom: 20px;
+}
+
 @media (max-width: 540px) {
+  .headerWatchTask {
+    height: 130px;
+  }
+
   .formWatchTask {
     margin-top: 40px;
   }
 
   .dateWatchTask {
-    top: -53px;
-  }
-
-  .formWatchTaskButton {
-    position: absolute;
-    top: -60px;
-    right: -10px;
+    top: 167px;
   }
 }

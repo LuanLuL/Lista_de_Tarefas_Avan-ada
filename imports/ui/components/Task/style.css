@@ -6,6 +6,8 @@
 .colorTask {
   background-color: #000;
   color: #fff;
+  width: calc(100% / 1 - 40px);
+  border-radius: 8px;
 }
 
 .optionsTaks {
@@ -18,7 +20,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    height: 110px;
+    height: 135px;
     position: relative;
   }
 

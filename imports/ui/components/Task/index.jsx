@@ -14,8 +14,11 @@ export function Task({ task, setOpenM, setTitleM, setTextM }) {
   const { windowWidth } = useScreen();
   return (
     <ListItem
+      style={{
+        marginLeft: windowWidth <= 540 ? "1px" : "",
+        paddingLeft: windowWidth <= 540 ? "1px" : "",
+      }}
       className="colorTask taskCard"
-      style={{ alignItems: windowWidth <= 540 ? "start" : "" }}
       secondaryAction={
         <div className="optionsTaks">
           <InputSelect
@@ -36,8 +39,15 @@ export function Task({ task, setOpenM, setTitleM, setTextM }) {
       }
     >
       <Button
+        className="taskCard"
         color="white"
-        style={{ textTransform: "none", textAlign: "left" }}
+        style={{
+          textTransform: "none",
+          textAlign: "left",
+          alignItems: windowWidth <= 540 ? "start" : "",
+          marginLeft: windowWidth <= 540 ? "1px" : "",
+          paddingLeft: windowWidth <= 540 ? "1px" : "",
+        }}
         onClick={handleViewtTask}
       >
         <ListItemAvatar>

@@ -47,19 +47,20 @@ export function WatchTaskPage() {
         <div className="watchTaskContent">
           <DrawerHeader />
           <main className="mainWatchTask">
-            <div style={{ height: 100 }}></div>
+            <div className="headerWatchTask"></div>
             <form onSubmit={(e) => handleEditTask(e)} className="formWatchTask">
-              <div
-                className="contentInput"
-                style={{ justifyContent: "center" }}
-              >
-                <InputText
-                  desabilitado={!task.function}
-                  text="Titulo"
-                  value={task.name}
-                  setValue={(textInputTitulo) => setNewTitulo(textInputTitulo)}
-                />
-              </div>
+              <label className="formWatchTaskLabel" htmlFor="titulo">
+                Título:{" "}
+              </label>
+              <textarea
+                name="titulo"
+                disabled={!task.function}
+                placeholder="Descrição..."
+                onChange={(e) => {
+                  setNewTitulo(e.target.value);
+                }}
+                value={task.name}
+              />
               <label className="formWatchTaskLabel" htmlFor="description">
                 Descrição:{" "}
               </label>
@@ -97,6 +98,9 @@ export function WatchTaskPage() {
               </span>
             </form>
           </main>
+          <footer className="footerWatchTask">
+            <p>Desevolvido por Luan Santos</p>
+          </footer>
         </div>
       )}
       {openModal && (
