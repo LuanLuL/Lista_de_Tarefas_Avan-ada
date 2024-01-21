@@ -144,7 +144,6 @@ export function DrawerHeader() {
   );
 
   function handleLogout() {
-    console.log("Entrou");
     handleSignOut()
       .then(() => {
         history("/");
@@ -159,6 +158,5 @@ export function DrawerHeader() {
         );
         setOpenModal(true);
       });
-    console.log("Saiu");
   }
 }

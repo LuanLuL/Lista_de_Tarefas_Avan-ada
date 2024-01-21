@@ -10,9 +10,6 @@ export function InputOptions(props) {
   const { user } = useUsuario();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const history = useNavigate();
-  const objetoSerializado = encodeURIComponent(
-    JSON.stringify({ ...props.task, function: true })
-  );
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -47,7 +44,11 @@ export function InputOptions(props) {
 
   function handleEditTask() {
     handleClose();
-    history(`/edit/${objetoSerializado}`);
+    history(
+      `/edit/${encodeURIComponent(
+        JSON.stringify({ ...props.task, function: true })
+      )}`
+    );
   }
 
   function handleRemoveTask() {

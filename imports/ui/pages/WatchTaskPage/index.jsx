@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
-import { useUsuario, useTask } from "../../hooks";
+import { useUsuario } from "../../hooks";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { useNavigate } from "react-router-dom";
 import {
   WarnModal,
   DrawerHeader,
@@ -11,10 +12,12 @@ import {
   InputTipo,
 } from "../../components";
 import { Button } from "@mui/material";
+
 import "./style.css";
 
 export function WatchTaskPage() {
   const { objetoSerializado } = useParams();
+  const history = useNavigate();
   const [task, setTask] = useState(undefined);
   const { user } = useUsuario();
   const [openModal, setOpenModal] = useState(false);
@@ -28,7 +31,6 @@ export function WatchTaskPage() {
     setTask(objetoDeserializado);
   }, [objetoSerializado]);
 
-  console.log(task);
   return (
     <section id="watchTaskScreen">
       {!user ? (
@@ -45,6 +47,7 @@ export function WatchTaskPage() {
         <div className="watchTaskContent">
           <DrawerHeader />
           <main className="mainWatchTask">
+            <div style={{ height: 100 }}></div>
             <form onSubmit={(e) => handleEditTask(e)} className="formWatchTask">
               <div
                 className="contentInput"
@@ -76,18 +79,16 @@ export function WatchTaskPage() {
                   setValue={(inputTipo) => setNewCategoria(inputTipo)}
                 />
               </div>
-              <div className="formWatchTaskButton">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="black"
-                  startIcon={
-                    task.function ? <BookmarkAddedIcon /> : <BookmarkAddIcon />
-                  }
-                >
-                  {task.function ? "Salvar" : "Editar"}
-                </Button>
-              </div>
+              <Button
+                type="submit"
+                variant="contained"
+                color="black"
+                startIcon={
+                  task.function ? <BookmarkAddedIcon /> : <ModeEditIcon />
+                }
+              >
+                {task.function ? "Salvar" : "Editar"}
+              </Button>
               <span className="dateWatchTask">
                 {`${task.createdAt.substring(8, 10)}/${task.createdAt.substring(
                   5,
@@ -129,8 +130,27 @@ export function WatchTaskPage() {
 
   function handleEditTask(event) {
     event.preventDefault();
-    const newTask = { ...task };
-    newTask.function = !newTask.function;
-    setTask(newTask);
+    if (task.function === false) {
+      const newTask = { ...task };
+      newTask.function = !newTask.function;
+      setTask(newTask);
+      return;
+    }
+    Meteor.call(
+      "tasks.update",
+      task._id,
+      task.name,
+      task.description,
+      task.categoria,
+      function (error) {
+        if (error) {
+          setTitleModal(error.error);
+          setTextModal(error.reason);
+          setOpenModal(true);
+        } else {
+          history(-1);
+        }
+      }
+    );
   }
 }

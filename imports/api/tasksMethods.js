@@ -41,7 +41,6 @@ Meteor.methods({
 
     TasksCollection.remove(taskId);
   },
-
   "tasks.setStatus"(taskId, status) {
     check(taskId, String);
     check(status, String);
@@ -56,6 +55,26 @@ Meteor.methods({
     TasksCollection.update(taskId, {
       $set: {
         status: status,
+      },
+    });
+  },
+  "tasks.update"(taskId, name, description, categoria) {
+    check(taskId, String);
+    check(name, String);
+    check(description, String);
+    check(categoria, String);
+
+    if (!this.userId) {
+      throw new Meteor.Error(
+        "Usuario inválido!",
+        "Você não possui autorização para realizar a ação solicitada. Agradecemos pela compreensão."
+      );
+    }
+    TasksCollection.update(taskId, {
+      $set: {
+        name: name,
+        description: description,
+        categoria: categoria,
       },
     });
   },
