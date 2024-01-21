@@ -6,6 +6,15 @@ import "./App.css";
 
 export function App() {
   const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 341,
+        md: 541,
+        lg: 769,
+        xl: 1536,
+      },
+    },
     palette: {
       black: {
         main: "#000",

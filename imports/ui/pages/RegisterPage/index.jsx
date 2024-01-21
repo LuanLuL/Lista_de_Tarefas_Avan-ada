@@ -38,72 +38,78 @@ export function RegisterPage() {
       <main className="registerMain">
         <h2>Cadastre-se</h2>
         <form className="registerForm" onSubmit={handleRegisterUser}>
-          <InputText
-            text="Email"
-            value={userEmail}
-            setValue={(textInputText) => setUserEmail(textInputText)}
-          />
-          <InputText
-            text="Nome de usuário"
-            value={userName}
-            setValue={(textInputText) => setUserName(textInputText)}
-          />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateField
-              color="black"
-              label="Data de Nascimento"
-              className="inputDate"
-              value={undefined}
-              format="DD/MM/YYYY"
-              onChange={(newValue) => {
-                if (newValue["$y"] ? newValue["$y"] > 999 : false) {
-                  setUserNascimento(
-                    `${
-                      newValue["$D"] < 10
-                        ? "0" + newValue["$D"]
-                        : newValue["$D"]
-                    }/${
-                      newValue["$M"] + 1 < 10
-                        ? "0" + (newValue["$M"] + 1)
-                        : newValue["$M"] + 1
-                    }/${newValue["$y"]}`
-                  );
-                }
-              }}
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <InputText
+              text="Email"
+              value={userEmail}
+              setValue={(textInputText) => setUserEmail(textInputText)}
             />
-            <div>
-              <input
-                accept="image/*"
-                id="upload-avatar-pic"
-                type="file"
-                hidden
-                onChange={handlePhotoChange}
-              />
-              <label
-                htmlFor="upload-avatar-pic"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  cursor: "pointer",
+          </div>
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <InputText
+              text="Nome de usuário"
+              value={userName}
+              setValue={(textInputText) => setUserName(textInputText)}
+            />
+          </div>
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateField
+                color="black"
+                label="Data de Nascimento"
+                className="inputDate"
+                value={undefined}
+                format="DD/MM/YYYY"
+                onChange={(newValue) => {
+                  if (newValue["$y"] ? newValue["$y"] > 999 : false) {
+                    setUserNascimento(
+                      `${
+                        newValue["$D"] < 10
+                          ? "0" + newValue["$D"]
+                          : newValue["$D"]
+                      }/${
+                        newValue["$M"] + 1 < 10
+                          ? "0" + (newValue["$M"] + 1)
+                          : newValue["$M"] + 1
+                      }/${newValue["$y"]}`
+                    );
+                  }
                 }}
-              >
-                <IconButton component="span" color="black">
-                  <Avatar
-                    color="white"
-                    sx={{
-                      width: "45px",
-                      height: "45px",
-                      backgroundColor: "#000",
-                    }}
-                    src={userFoto}
-                    alt="User Photo"
-                  />
-                </IconButton>
-                <span style={{ paddingTop: "8px" }}>Escolher Foto</span>
-              </label>
-            </div>
-          </LocalizationProvider>
+              />
+            </LocalizationProvider>
+          </div>
+          <div>
+            <input
+              accept="image/*"
+              id="upload-avatar-pic"
+              type="file"
+              hidden
+              onChange={handlePhotoChange}
+            />
+            <label
+              htmlFor="upload-avatar-pic"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <IconButton component="span" color="black">
+                <Avatar
+                  color="white"
+                  sx={{
+                    width: "45px",
+                    height: "45px",
+                    backgroundColor: "#000",
+                  }}
+                  src={userFoto}
+                  alt="User Photo"
+                />
+              </IconButton>
+              <span style={{ paddingTop: "8px" }}>Escolher Foto</span>
+            </label>
+          </div>
           <div className="formGenero">
             <FormControl>
               <FormLabel id="demo-row-radio-buttons-group-label" color="black">
@@ -137,16 +143,22 @@ export function RegisterPage() {
               </RadioGroup>
             </FormControl>
           </div>
-          <InputText
-            text="Empresa"
-            value={userEmpresa}
-            setValue={(textInputText) => setUserEmpresa(textInputText)}
-          />
-          <InputPassword
-            text="Senha"
-            value={userPassword}
-            setValue={(textInputPassowrd) => setUserPassword(textInputPassowrd)}
-          />
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <InputText
+              text="Empresa"
+              value={userEmpresa}
+              setValue={(textInputText) => setUserEmpresa(textInputText)}
+            />
+          </div>
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <InputPassword
+              text="Senha"
+              value={userPassword}
+              setValue={(textInputPassowrd) =>
+                setUserPassword(textInputPassowrd)
+              }
+            />
+          </div>
           <Button
             variant="contained"
             color="black"

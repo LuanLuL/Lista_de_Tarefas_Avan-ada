@@ -17,35 +17,37 @@ export function InputPassword(props) {
   };
 
   return (
-    <FormControl
-      sx={{ m: 1, width: "277px" }}
-      variant="outlined"
-      className="content"
-    >
-      <InputLabel color="black" htmlFor="outlined-adornment-password">
-        {props.text}
-      </InputLabel>
-      <OutlinedInput
-        id="outlined-adornment-password"
-        type={showPassword ? "text" : "password"}
-        value={props.value}
-        onChange={(e) => props.setValue(e.target.value)}
-        className="showPassword"
-        endAdornment={
-          <InputAdornment className="showPassword" position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        }
-        label={props.text}
-        color="black"
-      />
-    </FormControl>
+    <div style={{ width: "277px", padding: 0 }}>
+      <FormControl
+        sx={{ m: 0, width: "100%" }}
+        variant="outlined"
+        className="content"
+      >
+        <InputLabel color="black" htmlFor="outlined-adornment-password">
+          {props.text}
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          value={props.value}
+          onChange={(e) => props.setValue(e.target.value)}
+          className="showPassword"
+          endAdornment={
+            <InputAdornment className="showPassword" position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label={props.text}
+          color="black"
+        />
+      </FormControl>
+    </div>
   );
 }

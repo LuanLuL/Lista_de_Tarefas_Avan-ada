@@ -6,6 +6,7 @@ import {
   HomePage,
   TaskPage,
   UserPage,
+  WatchTaskPage,
 } from "../pages";
 
 export function Rotas() {
@@ -16,6 +17,7 @@ export function Rotas() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/tasks/:id" element={<TaskPage />} />
+        <Route path="/edit/:objetoSerializado" element={<WatchTaskPage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

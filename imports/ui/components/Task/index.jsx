@@ -24,8 +24,7 @@ export function Task({ task, setOpenM, setTitleM, setTextM }) {
             setTextM={setTextM}
           />
           <InputOptions
-            id={task._id}
-            userId={task.user.userId}
+            task={task}
             setOpenM={setOpenM}
             setTitleM={setTitleM}
             setTextM={setTextM}
@@ -47,28 +46,33 @@ export function Task({ task, setOpenM, setTitleM, setTextM }) {
       </ListItemAvatar>
       <ListItemText
         color="white"
-        primary={
-          task.name.length >= 40 && windowWidth > 768
-            ? task.name.substring(0, 40) + " ..."
-            : task.name.length >= 19 && windowWidth <= 768 && windowWidth > 340
-            ? task.name.substring(0, 19) + " ..."
-            : task.name.length > 15 && windowWidth <= 340
-            ? task.name.substring(0, 15) + " ..."
-            : task.name
-        }
-        secondary={
-          <span className="colorTask">
-            {task.user.userName.length >= 50 && windowWidth > 768
-              ? task.user.userName.substring(0, 50) + " ..."
-              : task.user.userName.length >= 21 &&
-                windowWidth <= 768 &&
-                windowWidth > 340
-              ? task.user.userName.substring(0, 21) + " ..."
-              : task.user.userName.length >= 15 && windowWidth <= 340
-              ? task.user.userName.substring(0, 15) + " ..."
-              : task.user.userName}
-          </span>
-        }
+        primary={task.name}
+        primaryTypographyProps={{
+          width: {
+            xs: 140,
+            sm: 230,
+            md: 180,
+            lg: 400,
+            xl: 400,
+          },
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+        secondaryTypographyProps={{
+          width: {
+            xs: 140,
+            sm: 230,
+            md: 180,
+            lg: 400,
+            xl: 400,
+          },
+          color: "white",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+        secondary={<span className="colorTask">{task.user.userName}</span>}
       />
     </ListItem>
   );

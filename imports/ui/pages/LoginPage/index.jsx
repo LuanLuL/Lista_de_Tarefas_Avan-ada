@@ -24,16 +24,22 @@ export function LoginPage() {
       <main className="loginMain">
         <h2>Conecte-se</h2>
         <form className="loginForm" onSubmit={handleLoginUser}>
-          <InputText
-            text="Nome de usuário"
-            value={userName}
-            setValue={(textInputText) => setUserName(textInputText)}
-          />
-          <InputPassword
-            text="Senha"
-            value={userPassword}
-            setValue={(textInputPassowrd) => setUserPassword(textInputPassowrd)}
-          />
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <InputText
+              text="Nome de usuário"
+              value={userName}
+              setValue={(textInputText) => setUserName(textInputText)}
+            />
+          </div>
+          <div className="contentInput" style={{ justifyContent: "center" }}>
+            <InputPassword
+              text="Senha"
+              value={userPassword}
+              setValue={(textInputPassowrd) =>
+                setUserPassword(textInputPassowrd)
+              }
+            />
+          </div>
           <Button
             type="submit"
             variant="contained"

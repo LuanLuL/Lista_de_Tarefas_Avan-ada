@@ -5,6 +5,7 @@ import "./style.css";
 export function InputText(props) {
   return (
     <TextField
+      disabled={!props.desabilitado ? false : props.desabilitado}
       className="inputText"
       label={props.text}
       variant="outlined"

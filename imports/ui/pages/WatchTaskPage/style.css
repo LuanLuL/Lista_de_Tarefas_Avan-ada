@@ -1,0 +1,84 @@
+#watchTaskScreen {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.watchTaskContent {
+  height: 100%;
+  width: 100%;
+  margin-top: 240px;
+  padding: 50px 20px;
+}
+
+.mainWatchTask {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.formWatchTask {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.formWatchTaskLabel {
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 1.1px;
+  text-align: left;
+}
+
+.formWatchTask textarea {
+  width: 100%;
+  border: 0;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fefefe;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  resize: vertical;
+  min-height: 96px;
+}
+
+.formWatchTask textarea:disabled {
+  cursor: not-allowed;
+}
+
+.dateWatchTask {
+  color: #29292e;
+  font-size: 18px;
+  font-weight: 500;
+  position: absolute;
+  top: -43px;
+  left: 0px;
+}
+
+.formWatchTaskButton {
+  position: absolute;
+  top: -50px;
+  right: -10px;
+}
+
+@media (max-width: 540px) {
+  .formWatchTask {
+    margin-top: 40px;
+  }
+
+  .dateWatchTask {
+    top: -53px;
+  }
+
+  .formWatchTaskButton {
+    position: absolute;
+    top: -60px;
+    right: -10px;
+  }
+}

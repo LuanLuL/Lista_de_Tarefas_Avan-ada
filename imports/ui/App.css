@@ -34,3 +34,9 @@ button {
   color: #000;
   margin-top: 10px;
 }
+
+.contentInput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}

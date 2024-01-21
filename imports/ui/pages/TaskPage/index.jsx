@@ -3,11 +3,6 @@ import { useParams } from "react-router-dom";
 import List from "@mui/material/List";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -15,7 +10,13 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { useUsuario, useTask } from "../../hooks";
 import AddTaskIcon from "@mui/icons-material/AddTask";
-import { Task, WarnModal, InputText, DrawerHeader } from "../../components";
+import {
+  Task,
+  WarnModal,
+  InputText,
+  DrawerHeader,
+  InputTipo,
+} from "../../components";
 import "./style.css";
 
 export function TaskPage() {
@@ -56,48 +57,31 @@ export function TaskPage() {
                 onSubmit={handleAddNewTask}
               >
                 <h2>Criar nova Tarefa</h2>
-                <InputText
-                  text="Nome"
-                  value={titleTaks}
-                  setValue={(textInputText) => setTitleTask(textInputText)}
-                />
-                <InputText
-                  text="Descrição"
-                  value={descTaks}
-                  setValue={(textInputText) => setDescTask(textInputText)}
-                />
-                <div className="formTipo">
-                  <FormControl>
-                    <FormLabel
-                      style={{ margin: 0 }}
-                      id="demo-row-radio-buttons-group-label"
-                      color="black"
-                      className="formTipo"
-                    >
-                      Categoria
-                    </FormLabel>
-                    <RadioGroup
-                      color="black"
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                      value={isTaksPessoal}
-                      onChange={(e) => setIsTaksPessoal(e.target.value)}
-                    >
-                      <FormControlLabel
-                        color="black"
-                        value="Normal"
-                        control={<Radio color="black" />}
-                        label="Normal"
-                      />
-                      <FormControlLabel
-                        value="Pessoal"
-                        control={<Radio color="black" />}
-                        label="Pessoal"
-                        color="black"
-                      />
-                    </RadioGroup>
-                  </FormControl>
+                <div
+                  className="contentInput"
+                  style={{ justifyContent: "center" }}
+                >
+                  <InputText
+                    text="Nome"
+                    value={titleTaks}
+                    setValue={(textInputText) => setTitleTask(textInputText)}
+                  />
+                </div>
+                <div
+                  className="contentInput"
+                  style={{ justifyContent: "center" }}
+                >
+                  <InputText
+                    text="Descrição"
+                    value={descTaks}
+                    setValue={(textInputText) => setDescTask(textInputText)}
+                  />
+                </div>
+                <div className="InpuTipo">
+                  <InputTipo
+                    value={isTaksPessoal}
+                    setValue={(inputTipo) => setIsTaksPessoal(inputTipo)}
+                  />
                 </div>
                 <Button
                   type="submit"
@@ -119,7 +103,7 @@ export function TaskPage() {
               </IconButton>
             </div>
             {params.id !== "suas" && params.id !== "todas" ? (
-              <></>
+              <div style={{ height: "40px" }}></div>
             ) : (
               <div className="buttonControlCompletedTaks">
                 <Button

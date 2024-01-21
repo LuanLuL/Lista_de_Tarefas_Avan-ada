@@ -1,6 +1,7 @@
 #registerScreen {
   height: 100vh;
-  padding: 0 32px;
+  width: 100vw;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
@@ -28,8 +29,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   gap: 30px;
 }
@@ -45,6 +44,7 @@
 
 .registerMain h2 {
   font-size: 24px;
+  text-align: center;
 }
 
 .linkToLogin {
@@ -93,19 +93,13 @@
   }
 }
 
-@media screen and (max-width: 430px) {
-  .formGenero {
-    padding-left: 40px;
-  }
-}
-
 @media screen and (max-width: 395px) {
-  .formGenero {
-    padding-left: 30px;
-  }
-
   #registerScreen aside h1 {
     font-size: 24px;
+  }
+
+  .formGenero {
+    padding-left: 35px;
   }
 
   .registerMain h2 {
@@ -116,5 +110,9 @@
 @media screen and (max-width: 320px) {
   #registerScreen aside h1 {
     font-size: 18px;
+  }
+
+  .formGenero {
+    padding-left: 0px;
   }
 }
