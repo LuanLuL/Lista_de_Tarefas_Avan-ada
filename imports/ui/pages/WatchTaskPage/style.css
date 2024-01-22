@@ -21,7 +21,6 @@
 .mainWatchTask {
   max-width: 500px;
   margin: 0 auto;
-  position: relative;
 }
 
 .formWatchTask {
@@ -30,7 +29,8 @@
   justify-content: center;
   align-items: center;
   gap: 18px;
-  margin: 40px 0px;
+  margin-bottom: 40px;
+  position: relative;
 }
 
 .formWatchTaskLabel {
@@ -57,14 +57,8 @@
   font-size: 18px;
   font-weight: 500;
   position: absolute;
-  top: 138px;
+  top: 0px;
   right: 0px;
-}
-
-.formWatchTaskButton {
-  position: absolute;
-  top: -50px;
-  right: -10px;
 }
 
 .footerWatchTask {
@@ -75,16 +69,31 @@
   padding-bottom: 20px;
 }
 
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin: 40px 0px;
+}
+
+.userInfo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.userInfo span {
+  margin-left: 8px;
+  color: #29292e;
+  font-weight: 500;
+  font-size: 14px;
+}
+
 @media (max-width: 540px) {
   .headerWatchTask {
     height: 130px;
   }
 
-  .formWatchTask {
-    margin-top: 40px;
-  }
-
-  .dateWatchTask {
-    top: 167px;
+  .userInfo {
+    margin: 30px 0px;
   }
 }

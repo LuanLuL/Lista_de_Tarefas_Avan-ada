@@ -5,12 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUsuario } from "../../hooks";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useNavigate } from "react-router-dom";
-import {
-  WarnModal,
-  DrawerHeader,
-  InputText,
-  InputTipo,
-} from "../../components";
+import { WarnModal, DrawerHeader, InputTipo } from "../../components";
 import { Button } from "@mui/material";
 
 import "./style.css";
@@ -20,20 +15,41 @@ export function WatchTaskPage() {
   const history = useNavigate();
   const [task, setTask] = useState(undefined);
   const { user } = useUsuario();
+  const [userTask, setUserTask] = useState(undefined);
   const [openModal, setOpenModal] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [textModal, setTextModal] = useState("");
+
+  function handleUserTask(userId) {
+    return new Promise((resolve, reject) => {
+      Meteor.call("users.getUserTask", userId, function (error, result) {
+        if (error) {
+          reject(error);
+        }
+        resolve(result);
+      });
+    });
+  }
 
   useEffect(() => {
     const objetoDeserializado = JSON.parse(
       decodeURIComponent(objetoSerializado)
     );
     setTask(objetoDeserializado);
+
+    handleUserTask(objetoDeserializado.user.userId)
+      .then((result) => {
+        // Armazena os dados do usuário no estado local
+        setUserTask(result);
+      })
+      .catch((error) => {
+        console.error("Erro ao obter dados do usuário:", error);
+      });
   }, [objetoSerializado]);
 
   return (
     <section id="watchTaskScreen">
-      {!user ? (
+      {!user || !userTask ? (
         <div className="loadingContent">
           <CircularProgress color="black" />
           <p>Buscando por usuário ...</p>
@@ -48,6 +64,14 @@ export function WatchTaskPage() {
           <DrawerHeader />
           <main className="mainWatchTask">
             <div className="headerWatchTask"></div>
+            <div className="userInfo">
+              <img
+                src={userTask.profile.foto}
+                alt={userTask.username}
+                title={userTask.username}
+              />
+              <span>{userTask.username}</span>
+            </div>
             <form onSubmit={(e) => handleEditTask(e)} className="formWatchTask">
               <label className="formWatchTaskLabel" htmlFor="titulo">
                 Título:{" "}
@@ -55,7 +79,7 @@ export function WatchTaskPage() {
               <textarea
                 name="titulo"
                 disabled={!task.function}
-                placeholder="Descrição..."
+                placeholder="Título..."
                 onChange={(e) => {
                   setNewTitulo(e.target.value);
                 }}
@@ -134,6 +158,14 @@ export function WatchTaskPage() {
 
   function handleEditTask(event) {
     event.preventDefault();
+    if (task.user.userId !== user._id) {
+      setTitleModal("Usuario inválido!");
+      setTextModal(
+        "Você não tem permissão para editar tarefas de outros usuários."
+      );
+      setOpenModal(true);
+      return;
+    }
     if (task.function === false) {
       const newTask = { ...task };
       newTask.function = !newTask.function;

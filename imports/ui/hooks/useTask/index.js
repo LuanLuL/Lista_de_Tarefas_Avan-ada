@@ -7,6 +7,7 @@ import { useState } from "react";
 export function useTask(filtro) {
   const { user } = useUsuario();
   const [showCompletedTasks, setShowCompletedTasks] = useState(true);
+  const [pesquisa, setPesquisa] = useState(null);
 
   function getTasks(status) {
     let query;
@@ -31,6 +32,13 @@ export function useTask(filtro) {
     if (!showCompletedTasks) {
       console.log("Entrou");
       query.status = { $ne: "Concluída" };
+    }
+
+    if (pesquisa && pesquisa !== "") {
+      query.name = {
+        $regex: typeof pesquisa === "object" ? pesquisa.name : pesquisa,
+        $options: "i",
+      };
     }
 
     return Meteor.subscribe("tasks").ready()
@@ -85,5 +93,7 @@ export function useTask(filtro) {
     cadastradasTasksCount,
     showCompletedTasks,
     setShowCompletedTasks,
+    pesquisa,
+    setPesquisa,
   };
 }

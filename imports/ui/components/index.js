@@ -7,3 +7,4 @@ export * from "./InputOptions";
 export * from "./InputTipo";
 export * from "./CardOptionsView";
 export * from "./DrawerHeader";
+export * from "./ConfirmModal";

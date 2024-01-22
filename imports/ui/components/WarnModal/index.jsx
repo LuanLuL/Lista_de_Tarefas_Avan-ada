@@ -31,7 +31,7 @@ export function WarnModal(props) {
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
-        <Box sx={{ ...style }}>
+        <Box style={{ padding: "16px 20px" }} sx={{ ...style }}>
           <section id="modalWarnScreen">
             <div className="titleWarnModal">
               <WarningIcon color="error" fontSize="large" />

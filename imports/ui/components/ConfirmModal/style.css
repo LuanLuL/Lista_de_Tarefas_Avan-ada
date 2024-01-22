@@ -1,0 +1,42 @@
+#modalConfirmScreen {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 400px;
+}
+
+.buttonContent {
+  width: 100%;
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleConfirmModal {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 8px;
+}
+
+.textConfirmModal {
+  padding: 0px 20px;
+}
+
+@media screen and (max-width: 450px) {
+  #modalConfirmScreen {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  #modalConfirmScreen {
+    width: 240px;
+  }
+
+  .textConfirmModal {
+    padding: 0 25px;
+    text-align: justify;
+  }
+}

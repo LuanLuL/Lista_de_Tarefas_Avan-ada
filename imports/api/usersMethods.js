@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { check, Match } from "meteor/check";
+import { check } from "meteor/check";
 import { Accounts } from "meteor/accounts-base";
 
 Meteor.methods({
@@ -27,6 +27,34 @@ Meteor.methods({
       password: password,
       email: email,
     });
+  },
+  "users.getUserTask"(userId) {
+    check(userId, String);
+
+    if (!this.userId) {
+      throw new Meteor.Error(
+        "Usuario inválido!",
+        "Você não possui autorização para realizar a ação solicitada. Agradecemos pela compreensão."
+      );
+    }
+
+    const userFound = Meteor.users.findOne(
+      { _id: userId },
+      {
+        fields: {
+          username: 1,
+          "profile.foto": 1,
+        },
+      }
+    );
+
+    if (!userFound) {
+      throw new Meteor.Error(
+        "Usuário não encontrado!",
+        "O usuário com o ID fornecido não foi encontrado."
+      );
+    }
+    return userFound;
   },
   "users.setRegisterDatas"(data, genero, empresa, foto) {
     check(data, String);

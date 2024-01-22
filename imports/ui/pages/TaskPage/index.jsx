@@ -1,3 +1,11 @@
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import SearchIcon from "@mui/icons-material/Search";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import "./style.css";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import List from "@mui/material/List";
@@ -22,13 +30,21 @@ import "./style.css";
 export function TaskPage() {
   const params = useParams();
   const { user } = useUsuario();
-  const [titleTaks, setTitleTask] = useState("");
-  const [isTaksPessoal, setIsTaksPessoal] = useState("");
-  const [descTaks, setDescTask] = useState("");
+  const [titleTask, setTitleTask] = useState("");
+  const [isTaskPessoal, setIsTaskPessoal] = useState("");
+  const [descTask, setDescTask] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const { tasks, showCompletedTasks, setShowCompletedTasks } = useTask(
-    params.id
-  );
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const {
+    tasks,
+    showCompletedTasks,
+    setShowCompletedTasks,
+    pesquisa,
+    setPesquisa,
+  } = useTask(params.id);
+
+  const [openAutocomplete, setOpenAutocomplete] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [textModal, setTextModal] = useState("");
@@ -48,11 +64,11 @@ export function TaskPage() {
       ) : (
         <div className="taskContent">
           <DrawerHeader />
-          <main className="mainTask">
-            <div className="controlFormTaks">
+          <aside className="optionTaskPage">
+            <div className="controlFormTasks">
               <form
                 className={`formTask ${
-                  isFormOpen ? " openControlFormTaks" : ""
+                  isFormOpen ? " openControlFormTasks" : ""
                 }`}
                 onSubmit={handleAddNewTask}
               >
@@ -62,8 +78,9 @@ export function TaskPage() {
                   style={{ justifyContent: "center" }}
                 >
                   <InputText
+                    desabilitado={!isFormOpen}
                     text="Nome"
-                    value={titleTaks}
+                    value={titleTask}
                     setValue={(textInputText) => setTitleTask(textInputText)}
                   />
                 </div>
@@ -72,18 +89,21 @@ export function TaskPage() {
                   style={{ justifyContent: "center" }}
                 >
                   <InputText
+                    desabilitado={!isFormOpen}
                     text="Descrição"
-                    value={descTaks}
+                    value={descTask}
                     setValue={(textInputText) => setDescTask(textInputText)}
                   />
                 </div>
                 <div className="InpuTipo">
                   <InputTipo
-                    value={isTaksPessoal}
-                    setValue={(inputTipo) => setIsTaksPessoal(inputTipo)}
+                    desabilitado={!isFormOpen}
+                    value={isTaskPessoal}
+                    setValue={(inputTipo) => setIsTaskPessoal(inputTipo)}
                   />
                 </div>
                 <Button
+                  disabled={!isFormOpen}
                   type="submit"
                   variant="contained"
                   color="black"
@@ -93,7 +113,7 @@ export function TaskPage() {
                 </Button>
               </form>
               <IconButton
-                className="buttonFormTaks"
+                className="buttonFormTasks"
                 style={{ position: "absolute" }}
                 color="black"
                 aria-label="open drawer"
@@ -102,10 +122,71 @@ export function TaskPage() {
                 {!isFormOpen ? <AddIcon /> : <CloseIcon />}
               </IconButton>
             </div>
+            <div className="controlSearchTask">
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setOpenAutocomplete(false);
+                }}
+                className={`contentInput searchTask ${
+                  isSearchOpen ? " openControlSearchTasks" : ""
+                }`}
+                style={{ justifyContent: "center" }}
+              >
+                <Autocomplete
+                  className="autoComplete"
+                  id="controlled-demo"
+                  disabled={!isSearchOpen}
+                  options={tasks.map((task) => task.name)}
+                  getOptionLabel={(taskName) => taskName}
+                  noOptionsText="Nenhuma tarefa encontrada"
+                  open={openAutocomplete}
+                  onOpen={() => setOpenAutocomplete(true)}
+                  onClose={() => setOpenAutocomplete(false)}
+                  value={pesquisa}
+                  onChange={(event, newValue) => {
+                    event.preventDefault();
+                    setPesquisa(newValue);
+                    setOpenAutocomplete(false);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Pesquisar"
+                      variant="outlined"
+                      color="black"
+                      disabled={!isSearchOpen}
+                      onChange={(event) => {
+                        event.preventDefault();
+                        setPesquisa(event.target.value);
+                      }}
+                    />
+                  )}
+                />
+              </form>
+              <IconButton
+                className="buttonSearchTasks"
+                style={{
+                  position: "absolute",
+                  top:
+                    isFormOpen && isSearchOpen
+                      ? "-23px"
+                      : !isFormOpen
+                      ? "-30px"
+                      : "",
+                  right: !isFormOpen ? "40px" : "",
+                }}
+                color="black"
+                aria-label="open drawer"
+                onClick={toggleSearch}
+              >
+                {!isSearchOpen ? <SearchIcon /> : <CloseIcon />}
+              </IconButton>
+            </div>
             {params.id !== "suas" && params.id !== "todas" ? (
-              <div style={{ height: "40px" }}></div>
+              <div style={{ height: "60px" }}></div>
             ) : (
-              <div className="buttonControlCompletedTaks">
+              <div className="buttonShowCompletdTasks">
                 <Button
                   color="black"
                   aria-label="open drawer"
@@ -122,18 +203,41 @@ export function TaskPage() {
                 </Button>
               </div>
             )}
-            <List className="taskList">
-              {tasks.map((task) => (
-                <Task
-                  key={task._id}
-                  task={task}
-                  setOpenM={(inputSetOpenM) => setOpenModal(inputSetOpenM)}
-                  setTitleM={(inputSetTitleM) => setTitleModal(inputSetTitleM)}
-                  setTextM={(inputSetTextM) => setTextModal(inputSetTextM)}
-                />
-              ))}
-            </List>
+          </aside>
+          <main className="mainTask">
+            {tasks.length === 0 ? (
+              <div className="noTask">
+                <h2>Nenhuma tarefa encontrada</h2>
+              </div>
+            ) : (
+              <List className="taskList">
+                {tasks.slice(page * 4 - 4, page * 4).map((task) => (
+                  <Task
+                    key={task._id}
+                    task={task}
+                    setOpenM={(inputSetOpenM) => setOpenModal(inputSetOpenM)}
+                    setTitleM={(inputSetTitleM) =>
+                      setTitleModal(inputSetTitleM)
+                    }
+                    setTextM={(inputSetTextM) => setTextModal(inputSetTextM)}
+                  />
+                ))}
+              </List>
+            )}
           </main>
+          <Pagination
+            style={{ margin: "30px 20px" }}
+            onChange={(e, p) => setPage(p)}
+            color="black"
+            count={Math.ceil(tasks.length / 4)}
+            shape="rounded"
+            renderItem={(item) => (
+              <PaginationItem
+                slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                {...item}
+              />
+            )}
+          />
           <footer className="footerTask">
             <p>Desevolvido por Luan Santos</p>
           </footer>
@@ -154,6 +258,10 @@ export function TaskPage() {
     setIsFormOpen(!isFormOpen);
   }
 
+  function toggleSearch() {
+    setIsSearchOpen(!isSearchOpen);
+  }
+
   function toggleIsToShowCompletedTasks() {
     setShowCompletedTasks(!showCompletedTasks);
   }
@@ -161,9 +269,9 @@ export function TaskPage() {
   function handleAddNewTask(event) {
     event.preventDefault();
     if (
-      titleTaks.trim() === "" ||
-      descTaks.trim() === "" ||
-      isTaksPessoal.trim() === ""
+      titleTask.trim() === "" ||
+      descTask.trim() === "" ||
+      isTaskPessoal.trim() === ""
     ) {
       setTitleModal("Campos obrigatórios vazios");
       setTextModal(
@@ -178,10 +286,10 @@ export function TaskPage() {
     }
     Meteor.call(
       "tasks.insert",
-      titleTaks.trim(),
-      descTaks.trim(),
+      titleTask.trim(),
+      descTask.trim(),
       user.username,
-      isTaksPessoal,
+      isTaskPessoal,
       function (error) {
         if (error) {
           setTitleModal(error.error);
@@ -193,6 +301,6 @@ export function TaskPage() {
     );
     setTitleTask("");
     setDescTask("");
-    setIsTaksPessoal("");
+    setIsTaskPessoal("");
   }
 }
