@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useUsuario } from "../../hooks";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 import { WarnModal, DrawerHeader, InputTipo } from "../../components";
 import { Button } from "@mui/material";
 
@@ -65,10 +66,16 @@ export function WatchTaskPage() {
           <main className="mainWatchTask">
             <div className="headerWatchTask"></div>
             <div className="userInfo">
-              <img
+              <Avatar
+                color="white"
+                sx={{
+                  width: "35px",
+                  height: "35px",
+                  backgroundColor: "#000",
+                  marginRight: 1.5,
+                }}
                 src={userTask.profile.foto}
-                alt={userTask.username}
-                title={userTask.username}
+                alt="User Photo"
               />
               <span>{userTask.username}</span>
             </div>
